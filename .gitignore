@@ -8,3 +8,5 @@ base/
 Procfile
 frontend/build/
 frontend/node_modules/
+frontend/staticfiles/
+frontend/media/ 
