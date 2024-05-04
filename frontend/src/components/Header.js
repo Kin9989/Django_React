@@ -113,6 +113,10 @@ function Header() {
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>
 
+                  <LinkContainer to="/admin/category/create">
+                    <NavDropdown.Item>Categories</NavDropdown.Item>
+                  </LinkContainer>
+
                   <LinkContainer to="/admin/productlist">
                     <NavDropdown.Item>Products</NavDropdown.Item>
                   </LinkContainer>

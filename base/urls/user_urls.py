@@ -3,6 +3,12 @@ from base.views import user_views as views
 
 
 urlpatterns = [
+    path('blogs/delete/<int:pk>/', views.deleteBlogById, name='delete_blog_by_id'),
+    path('blogs/<int:pk>/', views.getBlogById, name='get_blog_by_id'),
+    path('blogs/update/<int:pk>/', views.updateBlogById, name='update_blog_by_id'),
+    path('addblog/', views.addBlog, name='add_blog'),
+    path('blogs/', views.getBlogs, name='add_blog'),
+
     path('register/',views.registerUser,name='register'),
     path('',views.getUsers,name="users"),
     path('profile/',views.getUserProfile,name="user_profile"),

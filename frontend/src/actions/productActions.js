@@ -29,28 +29,28 @@ import {
 /* ACTION CREATOR USED IN HomeScreen COMPONENT */
 export const listProducts =
   (keyword = "") =>
-  async (dispatch) => {
-    try {
-      dispatch({
-        type: PRODUCT_LIST_REQUEST,
-      });
+    async (dispatch) => {
+      try {
+        dispatch({
+          type: PRODUCT_LIST_REQUEST,
+        });
 
-      const { data } = await axios.get(`/api/products${keyword}`);
+        const { data } = await axios.get(`/api/products${keyword}`);
 
-      dispatch({
-        type: PRODUCT_LIST_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: PRODUCT_LIST_FAIL,
-        payload:
-          error.response && error.response.data.detail
-            ? error.response.data.detail
-            : error.message,
-      });
-    }
-  };
+        dispatch({
+          type: PRODUCT_LIST_SUCCESS,
+          payload: data,
+        });
+      } catch (error) {
+        dispatch({
+          type: PRODUCT_LIST_FAIL,
+          payload:
+            error.response && error.response.data.detail
+              ? error.response.data.detail
+              : error.message,
+        });
+      }
+    };
 
 /* ACTION CREATOR USED IN ProductScreen COMPONENT */
 export const listProductDetails = (id) => async (dispatch) => {
@@ -115,7 +115,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 };
 
 /* ACTION CREATOR USED IN CREATING PRODUCTS IN ProductListScreen COMPONENT */
-export const createProduct = () => async (dispatch, getState) => {
+export const createProduct = (productData) => async (dispatch, getState) => {
   try {
     dispatch({
       type: PRODUCT_CREATE_REQUEST,
@@ -128,13 +128,13 @@ export const createProduct = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-type": "application/json",
+        "Content-type": "multipart/form-data", // Thay đổi Content-type thành multipart/form-data
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
     /* MAKING API CALL TO CREATE PRODUCT */
-    const { data } = await axios.post(`/api/products/create/`, {}, config);
+    const { data } = await axios.post(`/api/products/create/`, productData, config);
 
     /* IF POST REQUEST SUCCESSFULL WE DISPATCH & SEND THE PAYLOAD TO OUR REDUCER */
     dispatch({
@@ -151,6 +151,7 @@ export const createProduct = () => async (dispatch, getState) => {
     });
   }
 };
+
 
 /* ACTION CREATOR USED IN UPDATING PRODUCTS IN ProductEditScreen COMPONENT */
 export const updateProduct = (product) => async (dispatch, getState) => {

@@ -17,7 +17,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 # Local Import 
 from base.models import *
-from base.serializers import UserSerializer,UserSerializerWithToken
+from base.serializers import UserSerializer,UserSerializerWithToken,PostSerializer
 
 
 
@@ -142,3 +142,60 @@ def deleteUser(request,pk):
     userForDeletion = User.objects.get(id=pk)
     userForDeletion.delete()
     return Response("User was deleted")
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser]) 
+def addBlog(request):
+    if request.method == 'POST':
+        serializer = PostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()  
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def getBlogs(request):
+    if request.method == 'GET':
+        blogs = Post.objects.all()  
+        serializer = PostSerializer(blogs, many=True)  
+        return Response(serializer.data)
+    
+
+@api_view(['DELETE'])
+def deleteBlogById(request, pk):
+    try:
+        blog = Post.objects.get(pk=pk)  
+    except Post.DoesNotExist:
+        return Response("Blog not found")
+
+    if request.method == 'DELETE':
+        blog.delete()  
+        return Response("Delete blog ok")
+
+
+@api_view(['GET'])
+def getBlogById(request, pk):
+    try:
+        blog = Post.objects.get(pk=pk)  
+    except Post.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = PostSerializer(blog)  
+        return Response(serializer.data)
+
+@api_view(['PUT'])
+def updateBlogById(request, pk):
+    try:
+        blog = Post.objects.get(pk=pk)  
+    except Post.DoesNotExist:
+        return Response("Blog not found")
+
+    if request.method == 'PUT':
+        serializer = PostSerializer(blog, data=request.data)  
+        if serializer.is_valid():
+            serializer.save()  
+            return Response("Update success!")
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

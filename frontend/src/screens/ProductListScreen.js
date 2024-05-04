@@ -10,24 +10,30 @@ import { Table, Button, Row, Col } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Paginate from "../components/Paginate";
+import { Link } from "react-router-dom";
 
 /* REACT - REDUX */
 import { useDispatch, useSelector } from "react-redux";
-
-/* ACTION CREATORS */
+import { listCategories } from "../actions/categoryActions";
 import {
   listProducts,
   deleteProduct,
   createProduct,
 } from "../actions/productActions";
-
-/* ACTION TYPES */
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 
-function ProductListScreen({ match, history }) {
+function ProductListScreen({ history }) {
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(listCategories());
+    console.log("Categories:", categories);
+  }, [dispatch]);
+
   /* PULLING OUT STATE */
+  const categoryList = useSelector((state) => state.categoryList);
+  const { categories } = categoryList;
+
   const productList = useSelector((state) => state.productList);
   const { products, pages, page, loading, error } = productList;
 
@@ -55,21 +61,15 @@ function ProductListScreen({ match, history }) {
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET });
 
-    // WE DON'T WANT NON ADMINS TO ACCESS THIS PAGE SO REDIRECT IF SOMEBODY TRIES TO
-
     if (!userInfo.isAdmin) {
       history.push("/login");
     }
 
-    // CHECK IF PRODUCT CREATED, IF YES THEN REDIRECT TO EDIT PAGE
     if (successCreate) {
       history.push(`/admin/product/${createdProduct._id}/edit`);
     } else {
       dispatch(listProducts(keyword));
     }
-
-    // AFTER CREATING PRODUCT, LOAD IN PRODUCTS AGAIN, ADD successCreate IN DEPENDENCIES
-    // AFTER DELETING PRODUCT, LOAD IN PRODUCTS AGAIN, ADD successDelete IN DEPENDENCIES
   }, [
     dispatch,
     history,
@@ -80,7 +80,6 @@ function ProductListScreen({ match, history }) {
     keyword,
   ]);
 
-  /* HANDLER */
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure you want to delete this product ?")) {
       dispatch(deleteProduct(id));
@@ -99,9 +98,11 @@ function ProductListScreen({ match, history }) {
         </Col>
 
         <Col className="text-end">
-          <Button className="my-3" onClick={createProcutHandler}>
-            <i className="fas fa-plus"></i> Create Product
-          </Button>
+          <Link className="my-3" to="/admin/product/create">
+            <Button>
+              <i className="fas fa-plus"></i> Create Product
+            </Button>
+          </Link>
         </Col>
       </Row>
 
@@ -134,7 +135,7 @@ function ProductListScreen({ match, history }) {
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
-                  <td>₹{product.price}</td>
+                  <td>{product.price}</td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
 

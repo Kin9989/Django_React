@@ -15,7 +15,7 @@ from rest_framework.serializers import Serializer
 # Local Import
 from base.products import products
 from base.models import *
-from base.serializers import ProductSerializer
+from base.serializers import ProductSerializer, CategorySerializer
 
 # Get all the products with query
 
@@ -67,40 +67,102 @@ def getProduct(request, pk):
 
 
 # Create a new Product
+from django.core.files.storage import FileSystemStorage
+
+
 @api_view(["POST"])
 @permission_classes([IsAdminUser])
 def createProduct(request):
-
     user = request.user
+    category_id = request.data.get("category", None)
+    if category_id is not None:
+        try:
+            category = Category.objects.get(pk=category_id)
+        except Category.DoesNotExist:
+            return Response(
+                {"detail": "Category does not exist"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+    else:
+        return Response(
+            {"detail": "Category is required"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    name = request.data.get("name", None)
+    brand = request.data.get("brand", None)
+    description = request.data.get("description", None)
+    price = request.data.get("price", None)
+    image_file = request.FILES.get("image")  # Lấy file hình ảnh từ request
+
+    # Kiểm tra xem có hình ảnh được gửi kèm không
+    if "image" in request.FILES:
+        image_file = request.FILES["image"]
+        fs = FileSystemStorage()
+        uploaded_img = fs.save(image_file.name, image_file)
+        img_url = fs.url(uploaded_img)
+
+        # Cắt bỏ phần "media" khỏi đường dẫn
+        img_url = img_url.replace("/media/", "")
+
+    else:
+        img_url = None
+
+    # Tạo sản phẩm với các thông tin nhận được từ request
     product = Product.objects.create(
         user=user,
-        name=" Product Name ",
-        price=0,
-        brand="Sample brand ",
+        name=name,
+        brand=brand,
+        description=description,
+        price=price,
         countInStock=0,
-        category="Sample category",
-        description=" ",
+        category=category,
+        image=img_url,  # Lưu URL của hình ảnh
     )
 
     serializer = ProductSerializer(product, many=False)
     return Response(serializer.data)
 
 
+# Upload Image
+@api_view(["POST"])
+def uploadImage(request):
+    data = request.data
+    product_id = data["product_id"]
+    product = Product.objects.get(_id=product_id)
+    product.image = request.FILES.get("image")
+    product.save()
+    return Response("Image was uploaded")
+
+
 # Update single products
-
-
 @api_view(["PUT"])
 @permission_classes([IsAdminUser])
 def updateProduct(request, pk):
     data = request.data
-    product = Product.objects.get(_id=pk)
+    try:
+        product = Product.objects.get(_id=pk)
+    except Product.DoesNotExist:
+        return Response(
+            {"detail": "Product does not exist"}, status=status.HTTP_404_NOT_FOUND
+        )
 
-    product.name = data["name"]
-    product.price = data["price"]
-    product.brand = data["brand"]
-    product.countInStock = data["countInStock"]
-    product.category = data["category"]
-    product.description = data["description"]
+    product.name = data.get("name", product.name)
+    product.price = data.get("price", product.price)
+    product.brand = data.get("brand", product.brand)
+    product.countInStock = data.get("countInStock", product.countInStock)
+
+    category_id = data.get("category")
+    if category_id:
+        try:
+            category = Category.objects.get(pk=category_id)
+            product.category = category
+        except Category.DoesNotExist:
+            return Response(
+                {"detail": "Category does not exist"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    product.description = data.get("description", product.description)
 
     product.save()
 
@@ -115,17 +177,6 @@ def deleteProduct(request, pk):
     product = Product.objects.get(_id=pk)
     product.delete()
     return Response("Product deleted successfully")
-
-
-# Upload Image
-@api_view(["POST"])
-def uploadImage(request):
-    data = request.data
-    product_id = data["product_id"]
-    product = Product.objects.get(_id=product_id)
-    product.image = request.FILES.get("image")
-    product.save()
-    return Response("Image was uploaded")
 
 
 @api_view(["POST"])
@@ -168,3 +219,57 @@ def createProductReview(request, pk):
         product.save()
 
         return Response("Review Added")
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def createCategory(request):
+    data = request.data
+    category = Category.objects.create(name=data["name"])
+    serializer = CategorySerializer(category, many=False)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getCategories(request):
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getCategory(request, pk):
+    category = Category.objects.get(pk=pk)
+    serializer = CategorySerializer(category, many=False)
+    return Response(serializer.data)
+
+
+@api_view(["DELETE"])
+def deleteCategory(request, pk):
+    try:
+        category = Category.objects.get(pk=pk)
+    except Category.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == "DELETE":
+        category.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["PUT"])
+@permission_classes([IsAdminUser])
+def updateCategory(request, pk):
+    try:
+        category = Category.objects.get(pk=pk)
+    except Category.DoesNotExist:
+        return Response(
+            {"detail": "Category does not exist"}, status=status.HTTP_404_NOT_FOUND
+        )
+
+    data = request.data
+
+    category.name = data.get("name", category.name)
+    category.save()
+
+    serializer = CategorySerializer(category, many=False)
+    return Response(serializer.data)
