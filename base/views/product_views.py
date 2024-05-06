@@ -15,9 +15,9 @@ from rest_framework.serializers import Serializer
 # Local Import
 from base.products import products
 from base.models import *
-from base.serializers import ProductSerializer, CategorySerializer
+from base.serializers import ProductSerializer, CategorySerializer, ReviewSerializer
 
-# Get all the products with query
+from django.http import Http404
 
 
 @api_view(["GET"])
@@ -97,13 +97,12 @@ def createProduct(request):
     # Kiểm tra xem có hình ảnh được gửi kèm không
     if "image" in request.FILES:
         image_file = request.FILES["image"]
-        fs = FileSystemStorage()
+        fs = FileSystemStorage(location="media/images/")
         uploaded_img = fs.save(image_file.name, image_file)
         img_url = fs.url(uploaded_img)
-
-        # Cắt bỏ phần "media" khỏi đường dẫn
-        img_url = img_url.replace("/media/", "")
-
+        if "/media/" in img_url:
+            # Cắt bỏ phần "/media/" từ đường dẫn
+            img_url = img_url.replace("/media/", "images/")
     else:
         img_url = None
 
@@ -221,6 +220,28 @@ def createProductReview(request, pk):
         return Response("Review Added")
 
 
+@api_view(["GET"])
+def getReviewsProduct(request, pk):
+    try:
+        reviews = Review.objects.filter(product=pk)
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data)
+    except Review.DoesNotExist:
+        raise Http404("No reviews found for this product")
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAdminUser])
+def AdmindeleteReview(request, pk):
+    try:
+        review = Review.objects.get(_id=pk)
+    except Review.DoesNotExist:
+        raise Http404("Review does not exist")
+
+    review.delete()
+    return Response("Review deleted successfully")
+
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def createCategory(request):
@@ -234,6 +255,18 @@ def createCategory(request):
 def getCategories(request):
     categories = Category.objects.all()
     serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getProductsByCategory(request, category_id):
+    try:
+        category = Category.objects.get(pk=category_id)
+    except Category.DoesNotExist:
+        return Response({"detail": "Category does not exist"}, status=404)
+
+    products = category.product_set.all()
+    serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 
 

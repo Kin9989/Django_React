@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AppBar from '@mui/material/AppBar';
 /* REACT BOOTSTRAP */
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown, } from "react-bootstrap";
 
 /* REACT ROUTER BOOTSTRAP */
 import { LinkContainer } from "react-router-bootstrap";
@@ -11,21 +11,22 @@ import { useDispatch, useSelector } from "react-redux";
 
 /* ACTION CREATORS */
 import { logout } from "../actions/userActions";
-
+import { listCategories } from "../actions/categoryActions";
 /* COMPONENTS */
 import SearchBox from "./SearchBox";
 
 import logo from "../logo.png";
 
-
+import { useHistory } from "react-router-dom";
 
 
 function Header() {
   /* PULLING A PART OF STATE FROM THE ACTUAL STATE IN THE REDUX STORE */
+  const categoryList = useSelector((state) => state.categoryList);
   const userLogin = useSelector((state) => state.userLogin);
-
+  const history = useHistory();
   const { userInfo } = userLogin;
-
+  const { loading, error, categories } = categoryList;
   /* HANDLER */
   const dispatch = useDispatch();
 
@@ -33,6 +34,14 @@ function Header() {
     dispatch(logout());
   };
 
+  useEffect(() => {
+    dispatch(listCategories());
+  }, [dispatch]);
+
+  const handleCategorySelect = (categoryId) => {
+    // Điều hướng người dùng đến màn hình hiển thị sản phẩm của danh mục đó
+    history.push(`/category/${categoryId}/products`);
+  };
   return (
     <header >
       {/* <AppBar
@@ -68,9 +77,19 @@ function Header() {
           </LinkContainer>
 
           <LinkContainer to="/login">
-            <Nav.Link>
-              DANH MỤC
-            </Nav.Link>
+            <NavDropdown title="DANH MỤC" id="basic-nav-dropdown">
+              {loading ? (
+                <NavDropdown.Item>Loading...</NavDropdown.Item>
+              ) : error ? (
+                <NavDropdown.Item>Error! Không thể tải danh mục.</NavDropdown.Item>
+              ) : (
+                categories.map((category) => (
+                  <NavDropdown.Item key={category.id} onClick={() => handleCategorySelect(category.id)}>
+                    {category.name}
+                  </NavDropdown.Item>
+                ))
+              )}
+            </NavDropdown>
           </LinkContainer>
 
           <Navbar.Toggle aria-controls="navbarScroll" />

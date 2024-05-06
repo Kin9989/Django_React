@@ -40,7 +40,7 @@ const ExpandMore = styled((props) => {
 
 function Product({ product }) {
   const [expanded, setExpanded] = React.useState(false);
-
+  console.log(product.image)
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };

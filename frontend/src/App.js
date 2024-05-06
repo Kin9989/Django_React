@@ -25,8 +25,10 @@ import AdminPage from "./screens/AdminPage";
 
 
 import CategoryListScreen from "./screens/CategoryListScreen";
-
 import CategoryCreateScreen from "./screens/CategoryCreateScreen";
+
+import CategoryByProductScreen from "./screens/CategoryByProductScreen";
+
 
 
 import OrderListScreen from "./screens/OrderListScreen";
@@ -65,23 +67,26 @@ function App() {
 
       <Route path="/admin" component={AdminPage} />
 
-      <Route path="/admin/userlist" component={UserListScreen} />
-      <Route path="/admin/user/:id/edit" component={UserEditScreen} />
+      <Route path="/category/:id/products" component={CategoryByProductScreen} />
+
+
+      {/* <Route path="/admin/userlist" component={UserListScreen} />
+      <Route path="/admin/user/:id/edit" component={UserEditScreen} /> */}
 
       {/* admin manage product  */}
-      <Route path="/admin/product/:id/edit" component={ProductEditScreen} />
+      {/* <Route path="/admin/product/:id/edit" component={ProductEditScreen} />
       <Route path="/admin/product/create" component={ProductCreateScreen} />
-      <Route path="/admin/productlist" component={ProductListScreen} />
+      <Route path="/admin/productlist" component={ProductListScreen} /> */}
 
 
       {/* admin manage category  */}
-      <Route path="/admin/categorieslist" component={CategoryListScreen} />
-      <Route path="/admin/category/create" component={CategoryCreateScreen} />
+      {/* <Route path="/admin/categorieslist" component={CategoryListScreen} />
+      <Route path="/admin/category/create" component={CategoryCreateScreen} /> */}
       {/* <Route path="/admin/category/:id/edit" component={CategoryCreateScreen} /> */}
 
 
       {/* admin manage oder */}
-      <Route path="/admin/orderlist" component={OrderListScreen} />
+      {/* <Route path="/admin/orderlist" component={OrderListScreen} /> */}
 
 
 

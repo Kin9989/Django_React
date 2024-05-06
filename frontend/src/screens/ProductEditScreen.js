@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 /* ACTION CREATORS */
 import { listProductDetails, updateProduct } from "../actions/productActions";
+import { listCategories } from "../actions/categoryActions";
 
 /* ACTION TYPES */
 import { PRODUCT_UPDATE_RESET } from "../constants/productConstants";
@@ -44,6 +45,10 @@ function ProductEditScreen({ match, history }) {
   const { product, loading, error } = productDetails;
 
   const productUpdate = useSelector((state) => state.productUpdate);
+
+  const categoryList = useSelector((state) => state.categoryList);
+  const { loading: categoryLoading, error: categoryError, categories } = categoryList;
+
   const {
     success: successUpdate,
     loading: loadingUpdate,
@@ -68,7 +73,10 @@ function ProductEditScreen({ match, history }) {
         setDescription(product.description);
       }
     }
+    dispatch(listCategories());
   }, [dispatch, product, productId, history, successUpdate]);
+
+
 
   /* HANDLERS */
 
@@ -201,17 +209,21 @@ function ProductEditScreen({ match, history }) {
                 onChange={(e) => setCountInStock(e.target.value)}
               />
             </Form.Group>
-
-            <Form.Group controlId="category">
-              <Form.Label>Category</Form.Label>
+            <br></br>
+            <Form.Group controlId="Category">
               <Form.Control
-                type="text"
-                placeholder="Enter Category"
+                as="select"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-              />
+              >
+                <option value="">Select category</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
-
             <Form.Group controlId="description">
               <Form.Label>Description</Form.Label>
               <Form.Control

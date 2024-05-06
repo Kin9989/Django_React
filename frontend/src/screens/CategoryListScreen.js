@@ -6,6 +6,12 @@ import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import { listCategories, deleteCategory } from "../actions/categoryActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import Button from '@mui/material/Button';
+
+// mui
+
+import Grid from '@mui/material/Grid';
+
 
 const CategoryListScreen = ({ history }) => {
     const dispatch = useDispatch();
@@ -32,7 +38,20 @@ const CategoryListScreen = ({ history }) => {
 
     return (
         <div>
-            <h1>Categories</h1>
+            <Grid container spacing={2}>
+                <Grid item xs={12} md={5}>
+                    <h1>QUẢN LÝ DANH MỤC</h1>
+                </Grid>
+                <Grid item xs={12} md={5} style={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
+                    <Link className="my-3" to="/admin/category/create">
+                        <Button variant="contained" style={{ background: 'black' }}>
+                            <i className="fas fa-plus"></i> Tạo danh mục
+                        </Button>
+                    </Link>
+                </Grid>
+
+            </Grid>
+
             {loadingDelete && <Loader />}
             {errorDelete && <Message variant="danger">{errorDelete}</Message>}
             {loading ? (
@@ -43,18 +62,18 @@ const CategoryListScreen = ({ history }) => {
                 <table className="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Tên</th>
+                            <th>Sửa</th>
+                            <th>Xóa</th>
                         </tr>
                     </thead>
                     <tbody>
                         {categories.map((category) => (
-                            <tr key={category._id}>
+                            <tr key={category.id}>
                                 <td>{category.name}</td>
                                 <td>
                                     <Link
-                                        to={`/admin/category/${category._id}/edit`}
+                                        to={`/admin/category/${category.id}/edit`}
                                         className="btn btn-sm btn-primary"
                                     >
                                         <i className="fas fa-edit"></i>
@@ -63,7 +82,7 @@ const CategoryListScreen = ({ history }) => {
                                 <td>
                                     <button
                                         className="btn btn-sm btn-danger"
-                                        onClick={() => deleteHandler(category._id)}
+                                        onClick={() => deleteHandler(category.id)}
                                     >
                                         <i className="fas fa-trash"></i>
                                     </button>

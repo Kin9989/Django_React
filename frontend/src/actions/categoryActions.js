@@ -12,6 +12,12 @@ import {
     CATEGORY_UPDATE_REQUEST,
     CATEGORY_UPDATE_SUCCESS,
     CATEGORY_UPDATE_FAIL,
+    CATEGORY_DETAILS_REQUEST,
+    CATEGORY_DETAILS_SUCCESS,
+    CATEGORY_DETAILS_FAIL,
+    PRODUCT_LIST_BY_CATEGORY_FAIL,
+    PRODUCT_LIST_BY_CATEGORY_SUCCESS,
+    PRODUCT_LIST_BY_CATEGORY_REQUEST
 } from "../constants/categoryConstants";
 
 export const listCategories = () => async (dispatch) => {
@@ -34,7 +40,26 @@ export const listCategories = () => async (dispatch) => {
         });
     }
 };
+export const listCategoryDetails = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: CATEGORY_DETAILS_REQUEST });
 
+        const { data } = await axios.get(`/api/products/category/${id}/`);
+
+        dispatch({
+            type: CATEGORY_DETAILS_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: CATEGORY_DETAILS_FAIL,
+            payload:
+                error.response && error.response.data.detail
+                    ? error.response.data.detail
+                    : error.message,
+        });
+    }
+};
 export const deleteCategory = (id) => async (dispatch, getState) => {
     try {
         dispatch({
@@ -51,7 +76,7 @@ export const deleteCategory = (id) => async (dispatch, getState) => {
             },
         };
 
-        await axios.delete(`/api/products/categories/delete/${id}/`, config);
+        await axios.delete(`/api/products/category/delete/${id}/`, config);
 
         dispatch({
             type: CATEGORY_DELETE_SUCCESS,
@@ -133,7 +158,7 @@ export const updateCategory = (category) => async (dispatch, getState) => {
         };
 
         const { data } = await axios.put(
-            `/api/products/categories/${category._id}/`,
+            `/api/products/category/${category._id}/update/`,
             category,
             config
         );
@@ -145,6 +170,30 @@ export const updateCategory = (category) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: CATEGORY_UPDATE_FAIL,
+            payload:
+                error.response && error.response.data.detail
+                    ? error.response.data.detail
+                    : error.message,
+        });
+    }
+};
+
+export const listProductsByCategory = (categoryId) => async (dispatch) => {
+    try {
+        dispatch({ type: PRODUCT_LIST_BY_CATEGORY_REQUEST });
+
+        const { data } = await axios.get(`/api/products/categories/${categoryId}/products/`);
+
+
+
+        console.log("hellodata", data); // Kiểm tra dữ liệu trả về từ API
+        dispatch({
+            type: PRODUCT_LIST_BY_CATEGORY_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: PRODUCT_LIST_BY_CATEGORY_FAIL,
             payload:
                 error.response && error.response.data.detail
                     ? error.response.data.detail

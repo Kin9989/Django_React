@@ -24,6 +24,10 @@ import {
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
   PRODUCT_TOP_REQUEST,
+
+  GET_REVIEWS_PRODUCT_REQUEST,
+  GET_REVIEWS_PRODUCT_SUCCESS,
+  GET_REVIEWS_PRODUCT_FAIL,
 } from "../constants/productConstants";
 
 /* REDUCER USED IN HomeScreen COMPONENT */
@@ -219,3 +223,28 @@ export const productTopRatedReducer = (state = { products: [] }, action) => {
       return state;
   }
 };
+export const getReviewsProductReducer = (state = { reviews: [] }, action) => {
+  switch (action.type) {
+    case GET_REVIEWS_PRODUCT_REQUEST:
+      return { loading: true, reviews: [] };
+    case GET_REVIEWS_PRODUCT_SUCCESS:
+      return { loading: false, reviews: action.payload };
+    case GET_REVIEWS_PRODUCT_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+// export const getReviewsProductReducer = (state = { loading: false, reviews: [] }, action) => {
+//   switch (action.type) {
+//     case GET_REVIEWS_PRODUCT_REQUEST:
+//       return { ...state, loading: true };
+//     case GET_REVIEWS_PRODUCT_SUCCESS:
+//       return { loading: false, reviews: action.payload };
+//     case GET_REVIEWS_PRODUCT_FAIL:
+//       return { loading: false, error: action.payload };
+//     default:
+//       return state;
+//   }
+// };

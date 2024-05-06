@@ -24,6 +24,10 @@ import {
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
   PRODUCT_TOP_REQUEST,
+
+  GET_REVIEWS_PRODUCT_REQUEST,
+  GET_REVIEWS_PRODUCT_SUCCESS,
+  GET_REVIEWS_PRODUCT_FAIL,
 } from "../constants/productConstants";
 
 /* ACTION CREATOR USED IN HomeScreen COMPONENT */
@@ -265,5 +269,27 @@ export const listTopProducts = () => async (dispatch) => {
           ? error.response.data.detail
           : error.message,
     });
+  }
+};
+
+export const getReviewsProduct = (productId) => async (dispatch) => {
+  try {
+    dispatch({ type: GET_REVIEWS_PRODUCT_REQUEST });
+    console.log('Dispatched GET_REVIEWS_PRODUCT_REQUEST');
+
+    const { data } = await axios.get(`/api/products/${productId}/reviewsproduct/`);
+    console.log('Received data:', data);
+
+    dispatch({ type: GET_REVIEWS_PRODUCT_SUCCESS, payload: data });
+    console.log('Dispatched GET_REVIEWS_PRODUCT_SUCCESS');
+  } catch (error) {
+    dispatch({
+      type: GET_REVIEWS_PRODUCT_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+    console.error('Error getting reviews:', error);
   }
 };
