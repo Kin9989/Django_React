@@ -14,17 +14,17 @@ import { DataGrid } from '@mui/x-data-grid';
 
 import CommentIcon from '@mui/icons-material/Comment';
 // Import the getComment action from your actions file
-import { getReviewsProduct } from '../actions/productActions';
+
 function ProductListScreen({ history }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(listCategories());
-    console.log("Categoriesssssssssssss:", categories);
+
   }, [dispatch]);
-  useEffect(() => {
-    dispatch(listCategories());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(listCategories());
+  // }, [dispatch]);
 
   const categoryList = useSelector((state) => state.categoryList);
   const { categories } = categoryList;

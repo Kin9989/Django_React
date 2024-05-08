@@ -17,7 +17,7 @@ const CategoryByProductScreen = ({ match }) => {
     useEffect(() => {
         dispatch(listProductsByCategory(categoryId));
     }, [dispatch, categoryId]);
-    
+
 
     return (
         <div>
@@ -29,6 +29,8 @@ const CategoryByProductScreen = ({ match }) => {
                 <Loader />
             ) : error ? (
                 <Message variant="danger">{error}</Message>
+            ) : products.length === 0 ? (
+                <Message variant="info">Không có sản phẩm trong danh mục này.</Message>
             ) : (
                 <div className="row">
                     {products.map((product) => (

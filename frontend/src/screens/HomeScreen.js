@@ -12,6 +12,8 @@ import ProductCarousel from "../components/ProductCarousel";
 import BandCollab from "../components/BodyHomePage/BardCollab";
 import AdProduct from "../components/BodyHomePage/adProduct/AdProduct";
 import Committed from "../components/BodyHomePage/Committed";
+import OurService from "../components/BodyHomePage/OurService";
+
 /* REACT - REDUX */
 import { useDispatch, useSelector } from "react-redux";
 
@@ -68,10 +70,11 @@ function HomeScreen({ history }) {
       </Container>
       <Container>
         <BandCollab></BandCollab>
+        <OurService></OurService>
       </Container>
       <Committed></Committed>
 
-    </div>
+    </div >
   );
 }
 

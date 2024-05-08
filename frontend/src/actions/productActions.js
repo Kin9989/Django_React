@@ -6,21 +6,27 @@ import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
+
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
+
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_DELETE_FAIL,
+
   PRODUCT_CREATE_REQUEST,
   PRODUCT_CREATE_FAIL,
   PRODUCT_CREATE_SUCCESS,
+
   PRODUCT_UPDATE_REQUEST,
   PRODUCT_UPDATE_SUCCESS,
   PRODUCT_UPDATE_FAIL,
+
   PRODUCT_CREATE_REVIEW_REQUEST,
   PRODUCT_CREATE_REVIEW_SUCCESS,
   PRODUCT_CREATE_REVIEW_FAIL,
+
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
   PRODUCT_TOP_REQUEST,
@@ -28,6 +34,10 @@ import {
   GET_REVIEWS_PRODUCT_REQUEST,
   GET_REVIEWS_PRODUCT_SUCCESS,
   GET_REVIEWS_PRODUCT_FAIL,
+
+  ADMIN_DELETE_REVIEW_REQUEST,
+  ADMIN_DELETE_REVIEW_SUCCESS,
+  ADMIN_DELETE_REVIEW_FAIL,
 } from "../constants/productConstants";
 
 /* ACTION CREATOR USED IN HomeScreen COMPONENT */
@@ -291,5 +301,39 @@ export const getReviewsProduct = (productId) => async (dispatch) => {
           : error.message,
     });
     console.error('Error getting reviews:', error);
+  }
+};
+
+export const adminDeleteReview = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_DELETE_REVIEW_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.delete(`/api/products/reviews/${id}/delete/`, config);
+
+    dispatch({
+      type: ADMIN_DELETE_REVIEW_SUCCESS,
+      payload: id, // Truyền id của review đã bị xóa vào payload
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_DELETE_REVIEW_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
   }
 };

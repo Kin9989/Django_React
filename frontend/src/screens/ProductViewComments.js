@@ -1,18 +1,33 @@
-// ProductViewComments.js
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductComponent from '../components/ProductComponent';
+import { listProducts } from "../actions/productActions";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProductViewComments = () => {
     const { productId } = useParams();
-    console.log("chỗ này v", productId)
+    const dispatch = useDispatch();
+    const [productName, setProductName] = useState('');
+
+    const productList = useSelector(state => state.productList);
+    const { loading, products, error } = productList;
+
+    useEffect(() => {
+        dispatch(listProducts());
+    }, [dispatch]);
+
+    useEffect(() => {
+        const product = products.find(product => product._id === parseInt(productId));
+        if (product) {
+            setProductName(product.name);
+        }
+    }, [productId, products]);
 
     return (
-        <>
-            <hiii />
+        <div style={{ marginTop: '10px' }}>
+            <h2>Danh sách bình luận của sản phẩm: {productName}</h2>
             <ProductComponent productId={productId} />
-        </>
+        </div>
     );
 }
 

@@ -92,6 +92,8 @@ def createProduct(request):
     brand = request.data.get("brand", None)
     description = request.data.get("description", None)
     price = request.data.get("price", None)
+    countInStock = request.data.get("countInStock", None)
+    priceOrigin = request.data.get("priceOrigin", None)
     image_file = request.FILES.get("image")  # Lấy file hình ảnh từ request
 
     # Kiểm tra xem có hình ảnh được gửi kèm không
@@ -113,9 +115,10 @@ def createProduct(request):
         brand=brand,
         description=description,
         price=price,
-        countInStock=0,
+        countInStock=countInStock,
         category=category,
         image=img_url,  # Lưu URL của hình ảnh
+        priceOrigin=priceOrigin,
     )
 
     serializer = ProductSerializer(product, many=False)

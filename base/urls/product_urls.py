@@ -3,6 +3,7 @@ from base.views import product_views as views
 
 
 urlpatterns = [
+   
     path("category/", views.createCategory, name="create_category"),
     path("categories/", views.getCategories, name="get_categories"),
     path("category/<int:pk>/", views.getCategory, name="get_category"),

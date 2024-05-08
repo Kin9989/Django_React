@@ -24,13 +24,13 @@ const CategoryCreateScreen = () => {
 
     return (
         <div>
-            <h1>Create Category</h1>
+            <h1>Tạo Danh Mục</h1>
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
             {success && <p>Category created successfully</p>}
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId="name">
-                    <Form.Label>Name</Form.Label>
+                    <Form.Label>Tên danh mục</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="Enter category name"
