@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Typography, Grid } from "@mui/material";
+
 import { useDispatch, useSelector } from "react-redux";
 import { listCategories } from "../actions/categoryActions";
 import { listProducts, deleteProduct, createProduct } from "../actions/productActions";
@@ -11,7 +11,7 @@ import Loader from "../components/Loader";
 import Paginate from "../components/Paginate";
 import { Link as RouterLink } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
-
+import { Button, Typography, Grid } from "@mui/material";
 import CommentIcon from '@mui/icons-material/Comment';
 // Import the getComment action from your actions file
 
@@ -132,11 +132,7 @@ function ProductListScreen({ history }) {
     },
   ];
 
-  columns.forEach(column => {
-    // console.log(column.field);
-  });
-
-  console.log(columns[3].field);
+  
 
   return (
     <div>

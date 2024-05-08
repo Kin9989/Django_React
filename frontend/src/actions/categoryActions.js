@@ -76,7 +76,20 @@ export const deleteCategory = (id) => async (dispatch, getState) => {
             },
         };
 
-        await axios.delete(`/api/products/category/delete/${id}/`, config);
+        // Check if there are any products in the category
+        const { data: categoryProducts } = await axios.get(`/api/products/categories/${id}/products/`, config);
+
+        if (categoryProducts.length > 0) {
+            // If there are products, dispatch an error indicating that products must be removed first
+            dispatch({
+                type: CATEGORY_DELETE_FAIL,
+                payload: 'Vui lòng xóa tất cả sản phẩm trong danh mục',
+            });
+            return;
+        }
+
+        // If there are no products, proceed with deleting the category
+        await axios.delete(`/api/products/categories/delete/${id}/`, config);
 
         dispatch({
             type: CATEGORY_DELETE_SUCCESS,
@@ -91,6 +104,7 @@ export const deleteCategory = (id) => async (dispatch, getState) => {
         });
     }
 };
+
 
 export const createCategory = (name) => async (dispatch, getState) => {
     try {
