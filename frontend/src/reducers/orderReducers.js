@@ -22,6 +22,10 @@ import {
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_FAIL,
   ORDER_DELIVER_RESET,
+
+  ORDER_UPDATE_STATUS_REQUEST,
+  ORDER_UPDATE_STATUS_SUCCESS,
+  ORDER_UPDATE_STATUS_FAIL
 } from "../constants/orderConstants";
 
 /* REDUCER USED IN PlaceOrder COMPONENT */
@@ -82,34 +86,6 @@ export const orderDetailsReducer = (
   }
 };
 
-/* REDUCER USED IN OrderScreen COMPONENT TO MAKE PAYMENT */
-export const orderPayReducer = (state = {}, action) => {
-  switch (action.type) {
-    case ORDER_PAY_REQUEST:
-      return {
-        loading: true,
-      };
-
-    case ORDER_PAY_SUCCESS:
-      return {
-        loading: false,
-        success: true,
-      };
-
-    case ORDER_PAY_FAIL:
-      return {
-        loading: false,
-        error: action.payload,
-      };
-
-    case ORDER_PAY_RESET:
-      return {};
-
-    default:
-      return state;
-  }
-};
-
 /* REDUCER USED TO GET DATA OF ALL THE ORDERS PLACED BY USER IN ProfileScreen COMPONENT */
 export const orderListMyReducer = (state = { orders: [] }, action) => {
   switch (action.type) {
@@ -164,6 +140,34 @@ export const orderListReducer = (state = { orders: [] }, action) => {
   }
 };
 
+/* REDUCER USED IN OrderScreen COMPONENT TO MAKE PAYMENT */
+export const orderPayReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ORDER_PAY_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ORDER_PAY_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+
+    case ORDER_PAY_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    case ORDER_PAY_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
 /* REDUCER USED IN OrderScreen COMPONENT TO MAKE STATUS OF DELIVERY */
 export const orderDeliverReducer = (state = {}, action) => {
   switch (action.type) {
@@ -187,6 +191,20 @@ export const orderDeliverReducer = (state = {}, action) => {
     case ORDER_DELIVER_RESET:
       return {};
 
+    default:
+      return state;
+  }
+};
+
+
+export const orderUpdateStatusReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ORDER_UPDATE_STATUS_REQUEST:
+      return { loading: true };
+    case ORDER_UPDATE_STATUS_SUCCESS:
+      return { loading: false, success: true, order: action.payload };
+    case ORDER_UPDATE_STATUS_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

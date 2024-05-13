@@ -32,10 +32,11 @@ function AdminDashboard() {
     return (
         <div>
             <Box
-                // sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+               
                 role="presentation"
+
             >
-                <List>
+                <List style={{ maxheight: '10px' }}>
                     {data.map((tab, index) => (
                         <ListItem key={tab.label} disablePadding>
                             <ListItemButton component="a" href={tab.link}>

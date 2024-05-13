@@ -21,6 +21,10 @@ import {
   ORDER_DELIVER_REQUEST,
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_FAIL,
+
+  ORDER_UPDATE_STATUS_REQUEST,
+  ORDER_UPDATE_STATUS_SUCCESS,
+  ORDER_UPDATE_STATUS_FAIL
 } from "../constants/orderConstants";
 
 import { CART_CLEAR_ITEMS } from "../constants/cartConstants";
@@ -109,47 +113,6 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
   }
 };
 
-/* ACTION CREATOR USED IN MAKING PAYMENT IN OrderScreen COMPONENT  */
-export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: ORDER_PAY_REQUEST,
-    });
-
-    // PULLING OUT THE CURRENT USER WE ARE LOGGED IN AS
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    /* MAKING API CALL TO SAVE THE PAYMENT DETAILS */
-    const { data } = await axios.put(
-      `/api/orders/${id}/pay/`,
-      paymentResult,
-      config
-    );
-
-    /* IF PUT REQUEST SUCCESSFULL WE DISPATCH & SEND THE PAYLOAD TO OUR REDUCER */
-    dispatch({
-      type: ORDER_PAY_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: ORDER_PAY_FAIL,
-      payload:
-        error.response && error.response.data.detail
-          ? error.response.data.detail
-          : error.message,
-    });
-  }
-};
 
 /* ACTION CREATOR USED IN FETCHING USERS ORDERS IN ProfileScreen COMPONENT */
 export const listMyOrders = () => async (dispatch, getState) => {
@@ -261,6 +224,81 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: ORDER_DELIVER_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+/* ACTION CREATOR USED IN MAKING PAYMENT IN OrderScreen COMPONENT  */
+export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_PAY_REQUEST,
+    });
+
+    // PULLING OUT THE CURRENT USER WE ARE LOGGED IN AS
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    /* MAKING API CALL TO SAVE THE PAYMENT DETAILS */
+    const { data } = await axios.put(
+      `/api/orders/${id}/pay/`,
+      paymentResult,
+      config
+    );
+
+    /* IF PUT REQUEST SUCCESSFULL WE DISPATCH & SEND THE PAYLOAD TO OUR REDUCER */
+    dispatch({
+      type: ORDER_PAY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_PAY_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const updateOrderStatus = (orderId, newStatus) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: ORDER_UPDATE_STATUS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/orders/${orderId}/updatestatus/`, { new_status: newStatus }, config);
+
+    dispatch({
+      type: ORDER_UPDATE_STATUS_SUCCESS,
+      payload: data,
+    });
+
+  } catch (error) {
+    dispatch({
+      type: ORDER_UPDATE_STATUS_FAIL,
       payload:
         error.response && error.response.data.detail
           ? error.response.data.detail

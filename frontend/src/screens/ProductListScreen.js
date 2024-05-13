@@ -132,7 +132,7 @@ function ProductListScreen({ history }) {
     },
   ];
 
-  
+
 
   return (
     <div>

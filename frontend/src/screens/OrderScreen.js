@@ -112,15 +112,15 @@ function OrderScreen({ history, match }) {
     <Message variant="danger">{error}</Message>
   ) : (
     <div>
-      <h1>Order: {order._id}</h1>
+      <h1>Mã đơn hàng: {order._id}</h1>
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2>Shipping</h2>
+              <h2>Thông tin giao hàng</h2>
 
               <p>
-                <strong>Name: {order.User.name}</strong>
+                <strong>Tên khách hàng: {order.User.name}</strong>
               </p>
 
               <p>
@@ -129,7 +129,7 @@ function OrderScreen({ history, match }) {
               </p>
 
               <p>
-                <strong>Shipping Address: </strong>
+                <strong>Địa chỉ giao hàng: </strong>
                 {order.shippingAddress.address}, {order.shippingAddress.city},{" "}
                 {order.shippingAddress.postalCode},{" "}
                 {order.shippingAddress.country}
@@ -206,12 +206,12 @@ function OrderScreen({ history, match }) {
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <h2>Order Summary</h2>
+                <h2>Thông tin đặt hàng</h2>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
-                  <Col>Items:</Col>
+                  <Col>Tiền hàng:</Col>
 
                   {/* <Col>₹{order.itemsPrice}</Col> */}
 
@@ -239,7 +239,7 @@ function OrderScreen({ history, match }) {
 
               <ListGroup.Item>
                 <Row>
-                  <Col>Total:</Col>
+                  <Col>Tổng:</Col>
                   {/* <Col>₹{order.totalPrice}</Col> */}
                   <Col>{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(order.totalPrice)}</Col>
                 </Row>

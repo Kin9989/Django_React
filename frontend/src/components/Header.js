@@ -1,3 +1,57 @@
+// import React, { useState } from 'react';
+// import {
+//   MDBNavbar,
+//   MDBNavbarNav,
+//   MDBNavbarItem,
+//   MDBNavbarLink,
+//   MDBNavbarToggler,
+//   MDBContainer,
+//   MDBIcon,
+//   MDBCollapse,
+//   MDBBtn
+// } from 'mdb-react-ui-kit';
+
+// export default function App() {
+//   const [showBasic, setShowBasic] = useState(false);
+
+//   return (
+//     <header>
+//       <MDBNavbar expand='lg' light bgColor='white'>
+//         <MDBContainer fluid>
+//           <MDBNavbarToggler
+//             onClick={() => setShowBasic(!showBasic)}
+//             aria-controls='navbarExample01'
+//             aria-expanded='false'
+//             aria-label='Toggle navigation'
+//           >
+//             <MDBIcon fas icon='bars' />
+//           </MDBNavbarToggler>
+//           <MDBCollapse navbar show={showBasic}>
+//             <MDBNavbarNav right className='mb-2 mb-lg-0'>
+//               <MDBNavbarItem active>
+//                 <MDBNavbarLink aria-current='page' href='#'>
+//                   Home
+//                 </MDBNavbarLink>
+//               </MDBNavbarItem>
+//               <MDBNavbarItem>
+//                 <MDBNavbarLink href='#'>Features</MDBNavbarLink>
+//               </MDBNavbarItem>
+//               <MDBNavbarItem>
+//                 <MDBNavbarLink href='#'>Pricing</MDBNavbarLink>
+//               </MDBNavbarItem>
+//               <MDBNavbarItem>
+//                 <MDBNavbarLink href='#'>About</MDBNavbarLink>
+//               </MDBNavbarItem>
+//             </MDBNavbarNav>
+//           </MDBCollapse>
+//         </MDBContainer>
+//       </MDBNavbar>
+
+
+//     </header>
+//   );
+// }
+
 import React, { useEffect } from "react";
 import AppBar from '@mui/material/AppBar';
 /* REACT BOOTSTRAP */
@@ -58,44 +112,44 @@ function Header() {
       <Navbar bg="" variant="" expand="sm" collapseOnSelect style={{ height: '69px' }}>
         <Container>
 
-          <LinkContainer to="/">
-            <Navbar.Brand>
-              {/* <img alt=" Logo web" /> */} VIỆT THÀNH
-            </Navbar.Brand>
-          </LinkContainer>
 
-          <LinkContainer to="/">
-            <Nav.Link>
-              TRANG CHỦ
-            </Nav.Link>
-          </LinkContainer>
-
-          <LinkContainer to="/login">
-            <Nav.Link>
-              GIỚI THIỆU
-            </Nav.Link>
-          </LinkContainer>
-
-          <LinkContainer to="/login">
-            <NavDropdown title="DANH MỤC" id="basic-nav-dropdown">
-              {loading ? (
-                <NavDropdown.Item>Loading...</NavDropdown.Item>
-              ) : error ? (
-                <NavDropdown.Item>Error! Không thể tải danh mục.</NavDropdown.Item>
-              ) : (
-                categories.map((category) => (
-                  <NavDropdown.Item key={category.id} onClick={() => handleCategorySelect(category.id)}>
-                    {category.name}
-                  </NavDropdown.Item>
-                ))
-              )}
-            </NavDropdown>
-          </LinkContainer>
 
           <Navbar.Toggle aria-controls="navbarScroll" />
 
           <Navbar.Collapse id="navbarScroll">
+            <LinkContainer to="/">
+              <Navbar.Brand>
+                {/* <img alt=" Logo web" /> */} VIỆT THÀNH
+              </Navbar.Brand>
+            </LinkContainer>
 
+            <LinkContainer to="/">
+              <Nav.Link>
+                TRANG CHỦ
+              </Nav.Link>
+            </LinkContainer>
+
+            <LinkContainer to="/login">
+              <Nav.Link>
+                GIỚI THIỆU
+              </Nav.Link>
+            </LinkContainer>
+
+            <LinkContainer to="">
+              <NavDropdown title="DANH MỤC" id="basic-nav-dropdown">
+                {loading ? (
+                  <NavDropdown.Item>Loading...</NavDropdown.Item>
+                ) : error ? (
+                  <NavDropdown.Item>Error! Không thể tải danh mục.</NavDropdown.Item>
+                ) : (
+                  categories.map((category) => (
+                    <NavDropdown.Item key={category.id} onClick={() => handleCategorySelect(category.id)}>
+                      {category.name}
+                    </NavDropdown.Item>
+                  ))
+                )}
+              </NavDropdown>
+            </LinkContainer>
 
             <Nav
               className="ms-auto my-2 my-lg-0"
@@ -104,7 +158,7 @@ function Header() {
             ><SearchBox />
               <LinkContainer to="/cart">
                 <Nav.Link>
-                  <i className="fas fa-shopping-cart"></i> Cart
+                  <i className="fas fa-shopping-cart"></i> GIỎ HÀNG
                 </Nav.Link>
               </LinkContainer>
 
@@ -127,23 +181,28 @@ function Header() {
               )}
 
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown title="Admin" id="adminmenu">
-                  <LinkContainer to="/admin/userlist">
-                    <NavDropdown.Item>Users</NavDropdown.Item>
-                  </LinkContainer>
+                <LinkContainer to="/admin">
+                  <Nav.Link>
+                    <i className="fas fa-user"></i> ADMIN
+                  </Nav.Link>
+                </LinkContainer>
+                // <NavDropdown title="Admin" id="adminmenu">
+                //   <LinkContainer to="/admin/userlist">
+                //     <NavDropdown.Item>Users</NavDropdown.Item>
+                //   </LinkContainer>
 
-                  <LinkContainer to="/admin/category/create">
-                    <NavDropdown.Item>Categories</NavDropdown.Item>
-                  </LinkContainer>
+                //   <LinkContainer to="/admin/category/create">
+                //     <NavDropdown.Item>Categories</NavDropdown.Item>
+                //   </LinkContainer>
 
-                  <LinkContainer to="/admin/productlist">
-                    <NavDropdown.Item>Products</NavDropdown.Item>
-                  </LinkContainer>
+                //   <LinkContainer to="/admin/productlist">
+                //     <NavDropdown.Item>Products</NavDropdown.Item>
+                //   </LinkContainer>
 
-                  <LinkContainer to="/admin/orderlist">
-                    <NavDropdown.Item>Orders</NavDropdown.Item>
-                  </LinkContainer>
-                </NavDropdown>
+                //   <LinkContainer to="/admin/orderlist">
+                //     <NavDropdown.Item>Orders</NavDropdown.Item>
+                //   </LinkContainer>
+                // </NavDropdown>
               )}
             </Nav>
 

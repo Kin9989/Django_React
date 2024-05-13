@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -17,12 +17,19 @@ import CategoryCreateScreen from "./CategoryCreateScreen";
 import CategoryEditScreen from "./CategoryEditScreen";
 
 import OrderListScreen from "./OrderListScreen";
-import ProductViewComments from "./ProductViewComments";
+import OrderEditScreen from "./OrderEditScreen";
 
+
+import ProductViewComments from "./ProductViewComments";
+import Dashboard from "./Dashboardsreen";
+
+import MenuIcon from '@mui/icons-material/Menu';
 
 import { HashRouter as Router, Route } from "react-router-dom";
 
 import AdminDashboard from '../components/AdminCom/AdminDashboard';
+
+
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -32,39 +39,47 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function FullWidthGrid() {
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(false); // State for sidebar visibility
+
+    const toggleSidebar = () => {
+        setSidebarCollapsed(!sidebarCollapsed);
+    };
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
                 <Grid item xs={3} md={2}>
-
-                    <AdminDashboard></AdminDashboard>
-
+                    <MenuIcon onClick={toggleSidebar} /> {/* MenuIcon to toggle sidebar */}
+                    <Box sx={{ marginLeft: sidebarCollapsed ? '-164px' : '0', transition: 'margin .3s', }}>
+                        <AdminDashboard></AdminDashboard>
+                    </Box>
                 </Grid>
                 <Grid item xs={9} md={10}>
+
                     <Router>
 
-                        {/* admin manage category  */}
-                        <Route path="/admin/categorieslist" component={CategoryListScreen} />
-                        <Route path="/admin/category/create" component={CategoryCreateScreen} />
-                        <Route path="/admin/category/:id/edit" component={CategoryEditScreen} />
+                        {/* Apply conditional styling to the container based on sidebar visibility */}
+                        <Box sx={{ marginLeft: sidebarCollapsed ? '-164px' : '0', transition: 'margin .3s', }}>
+                            {/* admin manage category  */}
+                            <Route path="/admin/dashboard" component={Dashboard} />
+                            <Route path="/admin/categorieslist" component={CategoryListScreen} />
+                            <Route path="/admin/category/create" component={CategoryCreateScreen} />
+                            <Route path="/admin/category/:id/edit" component={CategoryEditScreen} />
+                            <Route path="/admin/userlist" component={UserListScreen} />
+                            <Route path="/admin/user/:id/edit" component={UserEditScreen} />
 
-                        <Route path="/admin/userlist" component={UserListScreen} />
-                        <Route path="/admin/user/:id/edit" component={UserEditScreen} />
+                            {/* admin manage product  */}
+                            <Route path="/admin/product/:id/edit" component={ProductEditScreen} />
+                            <Route path="/admin/product/create" component={ProductCreateScreen} />
+                            <Route path="/admin/productlist" component={ProductListScreen} />
 
-                        {/* admin manage product  */}
-                        <Route path="/admin/product/:id/edit" component={ProductEditScreen} />
-                        <Route path="/admin/product/create" component={ProductCreateScreen} />
-                        <Route path="/admin/productlist" component={ProductListScreen} />
-
-                        {/* admin manage oder */}
-                        <Route path="/admin/orderlist" component={OrderListScreen} />
-
-                        <Route path="/admin/product/:productId/reviews" component={ProductViewComments} />
-
+                            {/* admin manage order */}
+                            <Route path="/admin/orderlist" component={OrderListScreen} />
+                            <Route path="/admin/:id/orderedit" component={OrderEditScreen} />
+                            <Route path="/admin/product/:productId/reviews" component={ProductViewComments} />
+                        </Box>
                     </Router>
-
                 </Grid>
-
             </Grid>
         </Box>
     );

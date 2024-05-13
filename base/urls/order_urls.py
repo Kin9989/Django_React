@@ -7,6 +7,11 @@ urlpatterns = [
     path("add/", views.addOrderItems, name="orders-add"),
     path("myorders/", views.getMyOrders, name="myorders"),
     path("<str:pk>/deliver/", views.updateOrderToDelivered, name="delivered"),
+    path("<str:pk>/updatestatus/", views.updateOrderStatus, name="update-status"),
     path("<str:pk>/", views.getOrderById, name="user-order"),
     path("<str:pk>/pay/", views.updateOrderToPaid, name="pay"),
+    path("stats/totalisPaid/", views.getTotalRevenue, name="total-revenue"),
+    path("stats/total/", views.getOrderStatsNoCheckIsPaid, name="total-revenue"),
+    path("stats/total/DMY/", views.getToatalFollowDMY, name="total-revenue"),
+    path("stats/UP/", views.get_order_statisticsUP, name="total-revenue"),
 ]
