@@ -18,10 +18,10 @@ import CategoryEditScreen from "./CategoryEditScreen";
 
 import OrderListScreen from "./OrderListScreen";
 import OrderEditScreen from "./OrderEditScreen";
-
+import DashBoardSreen from "./Dashboardsreen"
 
 import ProductViewComments from "./ProductViewComments";
-import Dashboard from "./Dashboardsreen";
+
 
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -61,13 +61,12 @@ export default function FullWidthGrid() {
                         {/* Apply conditional styling to the container based on sidebar visibility */}
                         <Box sx={{ marginLeft: sidebarCollapsed ? '-164px' : '0', transition: 'margin .3s', }}>
                             {/* admin manage category  */}
-                            <Route path="/admin/dashboard" component={Dashboard} />
+                            <Route path="/admin/dashboard" component={DashBoardSreen} />
                             <Route path="/admin/categorieslist" component={CategoryListScreen} />
                             <Route path="/admin/category/create" component={CategoryCreateScreen} />
                             <Route path="/admin/category/:id/edit" component={CategoryEditScreen} />
                             <Route path="/admin/userlist" component={UserListScreen} />
                             <Route path="/admin/user/:id/edit" component={UserEditScreen} />
-
                             {/* admin manage product  */}
                             <Route path="/admin/product/:id/edit" component={ProductEditScreen} />
                             <Route path="/admin/product/create" component={ProductCreateScreen} />

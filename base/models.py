@@ -78,12 +78,36 @@ class Review(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="orders_user")
-    topProductPaid = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name="orders_top_product_paid")
-    userPaidMoneyHigh = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="orders_user_paid_money_high")
-    userBoughtHigh = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="orders_user_bought_high")
-    rateProduct = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name="orders_rate_product")
-    rateUser = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="orders_rate_user")
+    user = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name="orders_user"
+    )
+    topProductPaid = models.ForeignKey(
+        Product,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="orders_top_product_paid",
+    )
+    userPaidMoneyHigh = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="orders_user_paid_money_high",
+    )
+    userBoughtHigh = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="orders_user_bought_high",
+    )
+    rateProduct = models.ForeignKey(
+        Product,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="orders_rate_product",
+    )
+    rateUser = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name="orders_rate_user"
+    )
 
     paymentMethod = models.CharField(max_length=200, null=True, blank=True)
     taxPrice = models.DecimalField(

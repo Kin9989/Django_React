@@ -163,291 +163,68 @@ def updateOrderStatus(request, pk):
         return Response("Trạng thái đơn hàng không hợp lệ", status=400)
 
 
-# @api_view(["GET"])
-# @permission_classes([IsAdminUser])
-# def getTotalRevenue(request):
-#     # Lấy tất cả các đơn hàng đã được thanh toán
-#     orders = Order.objects.filter(isPaid=True)
-
-#     # Thống kê đơn hàng theo ngày, tháng và năm
-#     current_date = now().date()
-#     current_month = now().month
-#     current_year = now().year
-
-#     orders_by_day = orders.filter(createdAt__date=current_date).count()
-#     orders_by_month = orders.filter(createdAt__month=current_month).count()
-#     orders_by_year = orders.filter(createdAt__year=current_year).count()
-
-#     # Tính tổng doanh thu
-#     total_revenue = (
-#         orders.aggregate(total_revenue=Sum("totalPrice"))["total_revenue"] or 0
-#     )
-
-#     # Sản phẩm được mua nhiều nhất
-#     top_product = (
-#         OrderItem.objects.filter(order__in=orders)
-#         .values("name")
-#         .annotate(total_quantity=Sum("qty"))
-#         .order_by("-total_quantity")
-#         .first()
-#     )
-
-#     # Lưu thông tin thống kê theo ngày, tháng và năm vào một dictionary
-#     statistics_by_date = {
-#         "day": current_date.strftime("%d-%m-%Y"),
-#         "month": current_month,
-#         "year": current_year,
-#         "orders": {
-#             "by_day": orders_by_day,
-#             "by_month": orders_by_month,
-#             "by_year": orders_by_year,
-#         },
-#     }
-
-#     return Response(
-#         {
-#             "statistics_by_date": statistics_by_date,
-#             "total_revenue": total_revenue,
-#             "top_product": top_product,
-#             "current_date": current_date,
-#         }
-#     )
-
-
-@api_view(["GET"])
-@permission_classes([IsAdminUser])
-def getTotalRevenue(request, month=None):
-    # Lấy tất cả các đơn hàng
-    orders = Order.objects.all()
-
-    # Nếu không có tháng được chỉ định, sử dụng tháng hiện tại
-    if month is None:
-        current_month = now().month
-    else:
-        current_month = int(month)
-
-    # Thống kê đơn hàng theo tháng
-    orders_by_month = orders.filter(createdAt__month=current_month).count()
-
-    # Tính tổng doanh thu của các đơn hàng trong tháng
-    total_revenue = (
-        orders.filter(createdAt__month=current_month).aggregate(
-            total_revenue=Sum("totalPrice")
-        )["total_revenue"]
-        or 0
-    )
-
-    # Sản phẩm được mua nhiều nhất trong tháng
-    top_product = (
-        OrderItem.objects.filter(
-            order__in=orders.filter(createdAt__month=current_month)
-        )
-        .values("product__name")
-        .annotate(total_quantity=Sum("qty"))
-        .order_by("-total_quantity")
-        .first()
-    )
-
-    # Lưu thông tin thống kê của tháng vào một dictionary
-    statistics_by_month = {
-        "month": current_month,
-        "orders_by_month": orders_by_month,
-    }
-
-    return Response(
-        {
-            "statistics_by_month": statistics_by_month,
-            "total_revenue": total_revenue,
-            "top_product": top_product,
-        }
-    )
-
-
-@api_view(["GET"])
-@permission_classes([IsAdminUser])
-def getOrderStatsNoCheckIsPaid(request):
-    # Lấy tất cả các đơn hàng đã được thanh toán
-    orders = Order.objects.all()
-
-    # Thống kê đơn hàng theo ngày, tháng và năm
-    current_date = now().date()
-    current_month = now().month
-    current_year = now().year
-
-    orders_by_day = orders.filter(createdAt__date=current_date).count()
-    orders_by_month = orders.filter(createdAt__month=current_month).count()
-    orders_by_year = orders.filter(createdAt__year=current_year).count()
-
-    # Tính tổng doanh thu
-    total_revenue = (
-        orders.aggregate(total_revenue=Sum("totalPrice"))["total_revenue"] or 0
-    )
-
-    # Sản phẩm được mua nhiều nhất
-    top_product = (
-        OrderItem.objects.filter(order__in=orders)
-        .values("name")
-        .annotate(total_quantity=Sum("qty"))
-        .order_by("-total_quantity")
-        .first()
-    )
-
-    # Lưu thông tin thống kê theo ngày, tháng và năm vào một dictionary
-    statistics_by_date = {
-        "day": current_date.strftime("%d-%m-%Y"),
-        "month": current_month,
-        "year": current_year,
-        "orders": {
-            "by_day": orders_by_day,
-            "by_month": orders_by_month,
-            "by_year": orders_by_year,
-        },
-    }
-
-    return Response(
-        {
-            "statistics_by_date": statistics_by_date,
-            "total_revenue": total_revenue,
-            "top_product": top_product,
-            "current_date": current_date,
-        }
-    )
-
-
 @api_view(["POST"])
-@permission_classes([IsAdminUser])
+# @permission_classes([IsAdminUser])
 def getToatalFollowDMY(request):
     # Lấy ngày, tháng và năm từ body của yêu cầu POST
     day = request.data.get("day")
     month = request.data.get("month")
     year = request.data.get("year")
+    orders_data = []
+    # Kiểm tra xem ngày và năm đã được cung cấp hay không
 
-    # Lấy tất cả các đơn hàng
-    orders = Order.objects.all()
+    if day and not (month and year):
+        return Response({"error": "Vui lòng nhập tháng và năm"})
 
-    # Nếu ngày được chỉ định, lọc đơn hàng theo ngày
-    if day is not None and month is not None and year is not None:
-        orders = orders.filter(
-            createdAt__year=year, createdAt__month=month, createdAt__day=day
+    if day and month and year:  # Tính theo ngày, tháng, năm
+        orders = Order.objects.filter(
+            isPaid=True,
+            createdAt__day=day,
+            createdAt__month=month,
+            createdAt__year=year,
         )
-    # Nếu chỉ có tháng và năm được chỉ định, lọc đơn hàng theo tháng
-    elif month is not None and year is not None:
-        orders = orders.filter(createdAt__year=year, createdAt__month=month)
-    # Nếu chỉ có năm được chỉ định, lọc đơn hàng theo năm
-    elif year is not None:
-        orders = orders.filter(createdAt__year=year)
+        total_revenue = orders.aggregate(total_revenue=Sum("totalPrice"))[
+            "total_revenue"
+        ]
+        total_orders = orders.count()
+    elif month and year:  # Tính theo tháng, năm
+        orders = Order.objects.filter(
+            createdAt__month=month, createdAt__year=year, isPaid=True
+        )
+        total_revenue = orders.aggregate(total_revenue=Sum("totalPrice"))[
+            "total_revenue"
+        ]
+        total_orders = orders.count()
+    elif year:  # Tính theo năm
+        orders = Order.objects.filter(createdAt__year=year, isPaid=True)
+        total_revenue = orders.aggregate(total_revenue=Sum("totalPrice"))[
+            "total_revenue"
+        ]
+        total_orders = orders.count()
 
-    # Thống kê đơn hàng
-    orders_count = orders.count()
+    else:  # Không có thông tin về ngày, tháng, năm
+        return Response({"error": "Please provide at least year"})
 
-    # Tính tổng doanh thu
-    total_revenue = (
-        orders.aggregate(total_revenue=Sum("totalPrice"))["total_revenue"] or 0
-    )
-
-    # Sản phẩm được mua nhiều nhất
-    top_product = (
-        OrderItem.objects.filter(order__in=orders)
-        .values("name")
-        .annotate(total_quantity=Sum("qty"))
-        .order_by("-total_quantity")
-        .first()
-    )
+    for order in orders:
+        orders_data.append(
+            {
+                "_id": order._id,  # Thêm trường ID của đơn hàng
+                "totalPrice": order.totalPrice,
+                "paidAt": order.paidAt,
+            }
+        )
 
     return Response(
         {
-            "orders_count": orders_count,
+            "total_orders": total_orders,
             "total_revenue": total_revenue,
-            "top_product": top_product,
+            "orders": orders_data,
         }
     )
 
 
-# @api_view(["GET"])
-# @permission_classes([IsAdminUser])
-# def getTotalRevenue(request):
-#     # Lấy tất cả các đơn hàng đã được thanh toán
-
-#     # orders = Order.objects.filter(isPaid=True)
-
-#     # # Thống kê đơn hàng theo ngày, tháng và năm
-#     # orders_by_day = orders.filter(createdAt__date=now().date()).count()
-#     # orders_by_month = orders.filter(createdAt__month=now().month).count()
-#     # orders_by_year = orders.filter(createdAt__year=now().year).count()
-
-#     # # Tính tổng doanh thu
-#     # total_revenue = (
-#     #     orders.aggregate(total_revenue=Sum("totalPrice"))["total_revenue"] or 0
-#     # )
-
-#     # # Sản phẩm được mua nhiều nhất
-#     # top_product = (
-#     #     OrderItem.objects.filter(order__in=orders)
-#     #     .values("product__name")
-#     #     .annotate(total_quantity=Sum("qty"))
-#     #     .order_by("-total_quantity")
-#     #     .first()
-#     # )
-
-#     # return Response(
-#     #     {
-#     #         "orders_by_day": orders_by_day,
-#     #         "orders_by_month": orders_by_month,
-#     #         "orders_by_year": orders_by_year,
-#     #         "total_revenue": total_revenue,
-#     #         "top_product": top_product,
-#     #     }
-#     # )
-
-#     orders = Order.objects.filter(isPaid=True)
-
-#     # Thống kê đơn hàng theo ngày, tháng và năm
-#     current_date = now().date()
-#     current_month = now().month
-#     current_year = now().year
-
-#     orders_by_day = orders.filter(createdAt__date=current_date).count()
-#     orders_by_month = orders.filter(createdAt__month=current_month).count()
-#     orders_by_year = orders.filter(createdAt__year=current_year).count()
-
-#     # Tính tổng doanh thu
-#     total_revenue = (
-#         orders.aggregate(total_revenue=Sum("totalPrice"))["total_revenue"] or 0
-#     )
-
-#     # Sản phẩm được mua nhiều nhất
-#     top_product = (
-#         OrderItem.objects.filter(order__in=orders)
-#         .values("product__name")
-#         .annotate(total_quantity=Sum("qty"))
-#         .order_by("-total_quantity")
-#         .first()
-#     )
-
-#     # Lưu thông tin thống kê theo ngày, tháng và năm vào một dictionary
-#     statistics_by_date = {
-#         "day": current_date.strftime("%d-%m-%Y"),
-#         "month": current_month,
-#         "year": current_year,
-#         "orders": {
-#             "by_day": orders_by_day,
-#             "by_month": orders_by_month,
-#             "by_year": orders_by_year,
-#         },
-#     }
-
-#     return Response(
-#         {
-#             "statistics_by_date": statistics_by_date,
-#             "total_revenue": total_revenue,
-#             "top_product": top_product,
-#             "current_date": current_date,
-#         }
-#     )
-
-
 @api_view(["GET"])
-@permission_classes([IsAdminUser])
+# @permission_classes([IsAdminUser])
 def get_order_statisticsUP(request):
     # Lấy tất cả các đơn hàng đã thanh toán
     paid_orders = Order.objects.filter(isPaid=True)
@@ -473,7 +250,8 @@ def get_order_statisticsUP(request):
     # Lấy người dùng đã mua nhiều nhất theo số sản phẩm
     user_bought_high = (
         paid_orders.values(
-            "user_id", "user__username"
+            "user_id",
+            "user__username",
         )  # Hoặc "user__email" tùy thuộc vào trường bạn muốn sử dụng
         .annotate(total_orders=Sum(1))
         .order_by("-total_orders")
@@ -490,10 +268,9 @@ def get_order_statisticsUP(request):
 
     # Lấy thông tin người dùng mua nhiều nhất, số lượt mua và tổng tiền
     rate_user = (
-        paid_orders.values("user_id", "user__username")
-        .annotate(total_orders=Count("_id"),
-                total_money=Sum("totalPrice"))
-        .order_by("-total_orders")
+        paid_orders.values("user_id", "user__username", "user__first_name")
+        .annotate(total_orders=Count("_id"), total_money=Sum("totalPrice"))
+        .order_by("-total_money")
     )
 
     return Response(

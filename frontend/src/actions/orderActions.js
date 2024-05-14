@@ -24,7 +24,11 @@ import {
 
   ORDER_UPDATE_STATUS_REQUEST,
   ORDER_UPDATE_STATUS_SUCCESS,
-  ORDER_UPDATE_STATUS_FAIL
+  ORDER_UPDATE_STATUS_FAIL,
+
+  ORDER_STATS_UP_REQUEST,
+  ORDER_STATS_UP_SUCCESS,
+  ORDER_STATS_UP_FAIL,
 } from "../constants/orderConstants";
 
 import { CART_CLEAR_ITEMS } from "../constants/cartConstants";
@@ -96,6 +100,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
 
     /* MAKING API CALL TO GET THE ORDER DETAILS */
     const { data } = await axios.get(`/api/orders/${id}/`, config);
+    console.log("hellllllllll", data);
 
     /* IF GET REQUEST SUCCESSFULL WE DISPATCH & SEND THE PAYLOAD TO OUR REDUCER */
     dispatch({
@@ -306,3 +311,46 @@ export const updateOrderStatus = (orderId, newStatus) => async (dispatch, getSta
     });
   }
 };
+
+
+export const getOrderStatsUP = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_STATS_UP_REQUEST,
+    });
+
+    // Get admin token from userLogin state
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    // Set up config with authorization header containing token
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    // Make request to get order statistics
+    const { data } = await axios.get('/admin/orders/stats/UP/', config);
+    console.log("dâda", data);
+    // Log the data received from the API
+    // console.log(data);
+
+    // Dispatch success action with the data received
+    dispatch({
+      type: ORDER_STATS_UP_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    // Dispatch fail action with error message
+    dispatch({
+      type: ORDER_STATS_UP_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+

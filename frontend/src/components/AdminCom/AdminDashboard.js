@@ -24,7 +24,7 @@ function AdminDashboard() {
         { label: 'Đơn Hàng', icon: <EventNoteIcon />, link: '#/admin/orderlist' },
         { label: 'Người Dùng', icon: <ManageAccountsIcon />, link: '#/admin/userlist' },
         { label: 'Blog', icon: <BookIcon />, link: '#/admin/orderlist' },
-        { label: 'Thông kê', icon: <AssessmentIcon />, link: '#/admin/orderlist' },
+        { label: 'Thông kê', icon: <AssessmentIcon />, link: '#/admin/dashboard' },
 
 
     ];
@@ -32,7 +32,7 @@ function AdminDashboard() {
     return (
         <div>
             <Box
-               
+
                 role="presentation"
 
             >

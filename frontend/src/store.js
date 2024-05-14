@@ -38,7 +38,8 @@ import {
   orderListMyReducer,
   orderListReducer,
   orderDeliverReducer,
-  orderUpdateStatusReducer
+  orderUpdateStatusReducer,
+  orderStatsReducer,
 } from "./reducers/orderReducers";
 
 import {
@@ -89,6 +90,8 @@ const reducer = combineReducers({
   orderList: orderListReducer,
   orderDeliver: orderDeliverReducer,
   orderUpdateStatus: orderUpdateStatusReducer,
+
+  orderStats: orderStatsReducer,
 });
 
 /* PULLING DATA OUT OF LOCAL STORAGE AND LOAD IT INTO INITIAL STATE */
