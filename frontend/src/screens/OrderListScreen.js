@@ -55,16 +55,15 @@ function OrderListScreen({ history }) {
       width: 200,
 
       valueGetter: (value, row) => row.User ? row.User.name : '',
-
-      //        <td>
-      //           {order.isDeliver ? (
-      //             order.deliveredAt.substring(0, 10)
-      //           ) : (
-      //             <i className="fas fa-times" style={{ color: "red" }}></i>
-      //           )}
-      //         </td>
     },
-    { field: 'totalPrice', headerName: 'Tổng tiền', width: 120 },
+    {
+      field: 'totalPrice', headerName: 'Tổng tiền', width: 120,
+      valueGetter: (params, row) => {
+        const totalPrice = row.totalPrice;
+        return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(totalPrice);
+      }
+
+    },
     {
       field: 'isPaid', headerName: 'Thanh Toán', width: 150,
       valueGetter: (value, row) => row.isPaid ? row.paidAt.substring(0, 10) : "chưa thanh toán",

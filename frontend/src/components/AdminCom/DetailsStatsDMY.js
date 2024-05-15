@@ -10,7 +10,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+import TextField from '@mui/material/TextField';
 
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -26,6 +35,19 @@ export default function DetailsStatsDMY() {
         setOpen(false);
     };
 
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+
+
     const dispatch = useDispatch();
     const orderStats = useSelector((state) => state.orderStats);
     const [statsData, setStatsData] = useState(null);
@@ -35,21 +57,21 @@ export default function DetailsStatsDMY() {
     const [selectedMonth, setSelectedMonth] = useState('');
     const [selectedYear, setSelectedYear] = useState('');
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('/api/orders/stats/UP/');
-                setStatsData(response.data);
-                setLoading(false);
-            } catch (error) {
-                setError(error);
-                setLoading(false);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const response = await axios.get('/api/orders/stats/UP/');
+    //             setStatsData(response.data);
+    //             setLoading(false);
+    //         } catch (error) {
+    //             setError(error);
+    //             setLoading(false);
+    //         }
+    //     };
 
-        fetchData();
+    //     fetchData();
 
-    }, [dispatch]);
+    // }, [dispatch]);
 
     const handleSubmit = async () => {
         setLoading(true);
@@ -70,7 +92,7 @@ export default function DetailsStatsDMY() {
     return (
         <React.Fragment>
             <Button variant="outlined" onClick={handleClickOpen}>
-                Slide in alert dialog
+                Xem thống kê chi tiết
             </Button>
             <Dialog
                 open={open}
@@ -82,32 +104,39 @@ export default function DetailsStatsDMY() {
                 <DialogTitle>Xem thống kê chi tiết</DialogTitle>
                 <DialogContent style={{ width: 'fit-content', height: 'fit-content' }}>
                     <div>
-                        <div>
-                            <label htmlFor="day">Day:</label>
-                            <input
+                        <div style={{ display: 'flex', }}>
+
+                            <TextField label="Day" variant="outlined"
+                                style={{ marginRight: '10px' }}
                                 type="number"
                                 id="day"
                                 value={selectedDay}
                                 onChange={(e) => setSelectedDay(e.target.value)}
                             />
-                        </div>
-                        <div>
-                            <label htmlFor="month">Month:</label>
-                            <input
+
+
+
+                            <TextField
+                                style={{ marginRight: '10px' }}
+
+                                label="Month"
+                                variant="outlined"
                                 type="number"
                                 id="month"
                                 value={selectedMonth}
                                 onChange={(e) => setSelectedMonth(e.target.value)}
                             />
-                        </div>
-                        <div>
-                            <label htmlFor="year">Year:</label>
-                            <input
+
+                            <TextField
+                                label="Year"
+                                variant="outlined"
                                 type="number"
                                 id="year"
                                 value={selectedYear}
                                 onChange={(e) => setSelectedYear(e.target.value)}
                             />
+
+
                         </div>
                         <button onClick={handleSubmit}>Get Statistics</button>
 
@@ -120,11 +149,48 @@ export default function DetailsStatsDMY() {
                                 <h2>Total Revenue: {statsData.total_revenue}</h2>
                                 <h2>Orders:</h2>
                                 <ul>
-                                    {statsData.orders?.map((order) => (
+                                    {/* {statsData.orders?.map((order) => (
                                         <li key={order._id}>
-                                            Order ID: {order._id}, Total Price: {order.totalPrice}, Paid At: {order.paidAt.substring(0, 10)}
+                                            Order ID: {order._id}, Total Price: {order.totalPrice},
                                         </li>
-                                    ))}
+                                    ))} */}
+
+
+                                    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                        <TableContainer sx={{ maxHeight: 440 }}>
+                                            <Table stickyHeader aria-label="sticky table">
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell>Mã đơn hàng</TableCell>
+                                                        <TableCell>Tổng tiền</TableCell>
+
+                                                    </TableRow>
+
+                                                </TableHead>
+
+                                                <TableBody>
+                                                    {statsData.orders
+                                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                        .map((order) => (
+                                                            <TableRow hover role="checkbox" tabIndex={-1} key={order._id}>
+                                                                <TableCell>{order._id}</TableCell>
+                                                                <TableCell>{order.totalPrice}</TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                </TableBody>
+                                                <TablePagination
+                                                    rowsPerPageOptions={[5, 25, 100]}
+                                                    component="div"
+                                                    count={statsData.orders ? statsData.orders.length : 0}
+                                                    rowsPerPage={rowsPerPage}
+                                                    page={page}
+                                                    onPageChange={handleChangePage}
+                                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                                />
+                                            </Table>
+                                        </TableContainer>
+
+                                    </Paper>
                                 </ul>
 
                             </div>

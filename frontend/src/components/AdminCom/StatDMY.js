@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts';
@@ -12,11 +11,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 
 import DetailsStatsDMY from './DetailsStatsDMY'
+
 const StatsDMY = () => {
     const [statsData, setStatsData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [year, setYear] = useState('');
+    const [year, setYear] = useState('2024');
 
     const handleSubmit = async () => {
         setLoading(true);
@@ -38,6 +38,12 @@ const StatsDMY = () => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        if (year) {
+            handleSubmit();
+        }
+    }, [year]);
 
     const chartSetting = {
         xAxis: [
@@ -64,7 +70,6 @@ const StatsDMY = () => {
                     onChange={(e) => setYear(e.target.value)}
                 />
             </div>
-            <button onClick={handleSubmit}>Xem thống kê</button>
 
             {loading && <div>Loading...</div>}
             {error && <div>Error: {error.message}</div>}
@@ -90,4 +95,3 @@ const StatsDMY = () => {
 };
 
 export default StatsDMY;
-

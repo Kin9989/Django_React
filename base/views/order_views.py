@@ -1,7 +1,7 @@
 # Django Import
 from django.core.exceptions import RequestDataTooBig
 from django.shortcuts import render
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from rest_framework import status
 
@@ -210,7 +210,7 @@ def getToatalFollowDMY(request):
             {
                 "_id": order._id,  # Thêm trường ID của đơn hàng
                 "totalPrice": order.totalPrice,
-                "paidAt": order.paidAt,
+                # "paidAt": order.paidAt,
             }
         )
 
@@ -272,7 +272,46 @@ def get_order_statisticsUP(request):
         .annotate(total_orders=Count("_id"), total_money=Sum("totalPrice"))
         .order_by("-total_money")
     )
+    today = datetime.now().date()
+    yesterday = today - timedelta(days=1)
+    today_revenue = (
+        paid_orders.filter(paidAt__date=today).aggregate(
+            today_revenue=Sum("totalPrice")
+        )["today_revenue"]
+        or 0
+    )
 
+    yesterday_revenue = (
+        Order.objects.filter(isPaid=True, paidAt__date=yesterday).aggregate(
+            yesterday_revenue=Sum("totalPrice")
+        )["yesterday_revenue"]
+        or 0
+    )
+
+    if yesterday_revenue == 0:
+        if today_revenue == 0:
+            percentage_change = 0
+            change_symbol = "0%"
+        else:
+            percentage_change = 100  # Nếu hôm qua không có doanh thu, bất kỳ doanh thu nào hôm nay đều là tăng 100%
+            change_symbol = f"+{percentage_change}%"
+    else:
+        percentage_change = (
+            (today_revenue - yesterday_revenue) / yesterday_revenue
+        ) * 100
+        if percentage_change >= 0:
+            change_symbol = f"+{percentage_change:.2f}%"
+        else:
+            change_symbol = f"{percentage_change:.2f}%"
+
+    total_revenueP = (
+        Order.objects.filter(isPaid=True).aggregate(total_revenueP=Sum("totalPrice"))[
+            "total_revenueP"
+        ]
+        or 0
+    )
+
+    total_revenueOder = Order.objects.filter(isPaid=True).count() or 0
     return Response(
         {
             "topProductPaid": top_product_paid,
@@ -280,5 +319,11 @@ def get_order_statisticsUP(request):
             "userBoughtHigh": user_bought_high,
             "rateProduct": rate_product,
             "rateUser": rate_user,
+            "today_revenue": today_revenue,
+            "yesterday_revenue": yesterday_revenue,
+            "percentageChange": percentage_change,
+            "changeSymbol": change_symbol,
+            "total_revenueP": total_revenueP,
+            "total_revenueOder": total_revenueOder,
         }
     )

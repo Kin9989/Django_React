@@ -81,33 +81,6 @@ class Order(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, related_name="orders_user"
     )
-    topProductPaid = models.ForeignKey(
-        Product,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="orders_top_product_paid",
-    )
-    userPaidMoneyHigh = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="orders_user_paid_money_high",
-    )
-    userBoughtHigh = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="orders_user_bought_high",
-    )
-    rateProduct = models.ForeignKey(
-        Product,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="orders_rate_product",
-    )
-    rateUser = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="orders_rate_user"
-    )
 
     paymentMethod = models.CharField(max_length=200, null=True, blank=True)
     taxPrice = models.DecimalField(
@@ -128,18 +101,6 @@ class Order(models.Model):
     new_status = models.CharField(
         max_length=100, blank=True, default="đã nhận được đơn hàng", null=True
     )
-    statPaidD = models.IntegerField(null=True)  # Số sản phẩm hàng đã mua theo ngày
-    statPaidM = models.IntegerField(null=True)  # Số sản phẩm hàng đã mua theo tháng
-    statPaidY = models.IntegerField(null=True)  # Số sản phẩm hàng đã mua theo năm
-    numberSoldByDay = models.DecimalField(
-        null=True, max_digits=12, decimal_places=2
-    )  # Doanh số người dùng đã mua theo ngày
-    numberSoldByM = models.DecimalField(
-        null=True, max_digits=12, decimal_places=2
-    )  # Doanh số người dùng đã mua theo tháng
-    numberSoldByY = models.DecimalField(
-        null=True, max_digits=12, decimal_places=2
-    )  # Doanh số người dùng đã mua theo năm
 
     def __str__(self):
         return str(self.createdAt)
