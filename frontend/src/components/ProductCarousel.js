@@ -27,26 +27,27 @@ function ProductCarousel() {
     dispatch(listTopProducts());
   }, [dispatch]);
 
-  return loading ? (
-    <Loader />
-  ) : error ? (
-    <Message variant="danger">{error}</Message>
-  ) : (
-    <Carousel pause="hover" className="bg-dark">
-      {products.map((product) => (
-        <Carousel.Item key={product._id}>
-          <Link to={`/product/${product._id}`}>
-            <Image src={product.image} alt={product.name} fluid />
+  return (
 
-            <Carousel.Caption className="carousel1.caption">
-              <h4>
-                {product.name}{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.price)}
-              </h4>
-            </Carousel.Caption>
-          </Link>
-        </Carousel.Item>
-      ))}
-    </Carousel>
+    <>
+
+
+      <Carousel pause="hover" className="bg-dark">
+        {products.map((product) => (
+          <Carousel.Item key={product._id}>
+            <Link to={`/product/${product._id}`}>
+              <Image src={product.image} alt={product.name} fluid />
+
+              <Carousel.Caption className="carousel1.caption">
+                <h4>
+                  {product.name}{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.price)}
+                </h4>
+              </Carousel.Caption>
+            </Link>
+          </Carousel.Item>
+        ))}
+      </Carousel></>
+
   );
 }
 
