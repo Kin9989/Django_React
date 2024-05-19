@@ -41,7 +41,7 @@ function Header() {
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Button size="small">home</Button>
+        {/* <Button size="small">home</Button> */}
         <Typography
           component="h2"
           variant="h5"
@@ -77,7 +77,7 @@ function Header() {
         boxShadow: 0,
         bgcolor: 'transparent',
         backgroundImage: 'none',
-        mt: "62px",
+        mt: "50px",
       }}
     >
       <Container maxWidth="lg">
@@ -111,7 +111,9 @@ function Header() {
               px: 0,
             }}
           >
-            {/* <Sitemark /> */}
+
+
+            <div >dddd</div>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button
                 variant="text"
