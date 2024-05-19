@@ -1,10 +1,11 @@
 import React from "react";
 import "../BodyHomePage/adProduct/adproduct.css";
+import TextAnimate from "../TextAnimate"
 const OurService = () => {
     return (
         <div>
-            <h1>Dịch vụ của chúng tôi</h1>
-
+            {/* <h1>Dịch vụ của chúng tôi</h1> */}
+            <TextAnimate child="Dịch vụ của chúng tôi" />
             <div className="swiper-container">
                 <div className="swiper-wrapper">
                     <div className="swiper-slide">

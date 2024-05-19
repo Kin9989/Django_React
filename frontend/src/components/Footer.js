@@ -26,7 +26,7 @@ const Item = styled(Paper)(({ theme }) => ({
 function Footer() {
   return (
     <div>
-      
+
 
 
       <MDBFooter className='text-center' color='white' bgColor='black'>
@@ -82,13 +82,11 @@ function Footer() {
 
           <section className='mb-4'>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt distinctio earum repellat quaerat
-              voluptatibus placeat nam, commodi optio pariatur est quia magnam eum harum corrupti dicta, aliquam
-              sequi voluptate quas.
+              CHÚNG TÔI LÀ MỘT THƯƠNG HIỆU GIA ĐÌNH VỚI KINH NGHIỆM GẦN 30 NĂM TRONG NGHỀ VÀ ĐÃ CÙNG NGƯỜI BÌNH DƯƠNG TẠO NÊN NHỮNG KHÔNG GIAN SỐNG, KHÔNG GIAN LÀM VIỆC CHÂN THỰC VỚI NHU CẦU CỦA MÌNH.
             </p>
           </section>
 
-          <section className=''>
+          {/* <section className=''>
             <MDBRow>
               <MDBCol lg='3' md='6' className='mb-4 mb-md-0'>
                 <h5 className='text-uppercase text-white '>Links</h5>
@@ -198,7 +196,7 @@ function Footer() {
                 </ul>
               </MDBCol>
             </MDBRow>
-          </section>
+          </section> */}
         </MDBContainer>
         <hr></hr>
         <div className='text-center p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
