@@ -130,7 +130,8 @@ function PlaceOrderScreen({ history }) {
                         </Col>
 
                         <Col md={4}>
-                          {item.qty} X ₹{item.price} = ₹
+
+                          {item.qty} X {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(item.price)} = đ
                           {(item.qty * item.price).toFixed(2)}
                         </Col>
                       </Row>
@@ -153,7 +154,10 @@ function PlaceOrderScreen({ history }) {
                 <Row>
                   <Col>Items:</Col>
 
-                  <Col>₹{cart.itemsPrice}</Col>
+                  {/* <Col>₹{cart.itemsPrice}</Col> */}
+                  <Col> {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(cart.itemsPrice)}</Col>
+
+
                 </Row>
               </ListGroup.Item>
 
@@ -161,7 +165,7 @@ function PlaceOrderScreen({ history }) {
                 <Row>
                   <Col>Shipping:</Col>
 
-                  <Col>₹{cart.shippingPrice}</Col>
+                  <Col>{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(cart.shippingPrice)}</Col>
                 </Row>
               </ListGroup.Item>
 
@@ -169,15 +173,17 @@ function PlaceOrderScreen({ history }) {
                 <Row>
                   <Col>Tax:</Col>
 
-                  <Col>₹{cart.taxPrice}</Col>
+
+                  <Col>{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(cart.taxPrice)}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col>Total:</Col>
+                  <Col>{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(cart.totalPrice)}</Col>
 
-                  <Col>₹{cart.totalPrice}</Col>
+
                 </Row>
               </ListGroup.Item>
 

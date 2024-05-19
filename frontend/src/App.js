@@ -29,7 +29,7 @@ import CategoryCreateScreen from "./screens/CategoryCreateScreen";
 
 import CategoryByProductScreen from "./screens/CategoryByProductScreen";
 
-
+import AllProductSreen from "./screens/AllProductSreen"
 
 import OrderListScreen from "./screens/OrderListScreen";
 import Caurousel from "../src/components/BodyHomePage/Caurousel";
@@ -60,7 +60,11 @@ function App() {
 
       <Route path="/order/:id" component={OrderScreen} />
 
+
+      <Route path="/products" component={AllProductSreen} />
+
       <Route path="/product/:id" component={ProductScreen} />
+
 
       <Route path="/cart/:id?" component={CartScreen} />
 

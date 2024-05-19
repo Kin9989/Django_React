@@ -79,7 +79,7 @@ class Review(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="orders_user"
+        User, on_delete=models.SET_NULL, null=True, related_name="orders"
     )
 
     paymentMethod = models.CharField(max_length=200, null=True, blank=True)
@@ -104,6 +104,14 @@ class Order(models.Model):
 
     def __str__(self):
         return str(self.createdAt)
+
+
+class Payment_VNPay(models.Model):
+    order_id = models.IntegerField(default=0, null=True)
+    amount = models.FloatField(default=0.0, null=True)
+    order_desc = models.CharField(max_length=200, null=True, blank=True)
+    vnp_TransactionNo = models.CharField(max_length=200, null=True, blank=True)
+    vnp_ResponseCode = models.CharField(max_length=200, null=True, blank=True)
 
 
 class OrderItem(models.Model):

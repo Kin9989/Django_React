@@ -13,7 +13,7 @@ const AdProduct = () => {
             </h2>
           </div>
         </section>
-        <section className="content" style={{ background: "#f8bbd0" }}>
+        <section className="content" style={{ background: "lightgray" }}>
           <article className="content__inner">
             <h1 className="content__title">Nội Thất Việt Thành</h1>
             <h3 className="content__author">noithatvietthanh.com</h3>

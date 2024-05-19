@@ -58,27 +58,7 @@ function Footer() {
             </MDBBtn>
           </section>
 
-          <section className=''>
-            {/* <form action=''>
-            <MDBRow className='d-flex justify-content-center'>
-              <MDBCol size="auto">
-                <p className='pt-2'>
-                  <strong>Sign up for our newsletter</strong>
-                </p>
-              </MDBCol>
 
-              <MDBCol md='5' start>
-                <MDBInput contrast type='email' label='Email address' className='mb-4' />
-              </MDBCol>
-
-              <MDBCol size="auto">
-                <MDBBtn outline color='light' type='submit' className='mb-4'>
-                  Subscribe
-                </MDBBtn>
-              </MDBCol>
-            </MDBRow>
-          </form> */}
-          </section>
 
           <section className='mb-4'>
             <p>
@@ -91,32 +71,53 @@ function Footer() {
               <MDBCol lg='3' md='6' className='mb-4 mb-md-0'>
                 <h5 className='text-uppercase text-white '>Links</h5>
 
-                <ul className='list-unstyled mb-0'>
-                  <li>
-                    <a href='#!' className='text-white'>
-                      Link 1
+                <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
+                  <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
+                  <p>
+                    <a href='#!' className='text-reset'>
+                      Angular
                     </a>
-                  </li>
-                  <li>
-                    <a href='#!' className='text-white'>
-                      Link 2
+                  </p>
+                  <p>
+                    <a href='#!' className='text-reset'>
+                      React
                     </a>
-                  </li>
-                  <li>
-                    <a href='#!' className='text-white'>
-                      Link 3
+                  </p>
+                  <p>
+                    <a href='#!' className='text-reset'>
+                      Vue
                     </a>
-                  </li>
-                  <li>
-                    <a href='#!' className='text-white'>
-                      Link 4
+                  </p>
+                  <p>
+                    <a href='#!' className='text-reset'>
+                      Laravel
                     </a>
-                  </li>
-                </ul>
-              </MDBCol>
+                  </p>
+                </MDBCol>
 
-              <MDBCol lg='3' md='6' className='mb-4 mb-md-0'>
-                <h5 className='text-uppercase text-white'>Links</h5>
+                <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
+                  <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
+                  <p>
+                    <a href='#!' className='text-reset'>
+                      Pricing
+                    </a>
+                  </p>
+                  <p>
+                    <a href='#!' className='text-reset'>
+                      Settings
+                    </a>
+                  </p>
+                  <p>
+                    <a href='#!' className='text-reset'>
+                      Orders
+                    </a>
+                  </p>
+                  <p>
+                    <a href='#!' className='text-reset'>
+                      Help
+                    </a>
+                  </p>
+                </MDBCol>
 
                 <ul className='list-unstyled mb-0'>
                   <li>
