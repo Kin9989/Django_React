@@ -108,7 +108,8 @@ function PlaceOrderScreen({ history }) {
               <h2>Order Items</h2>
 
               {cart.cartItems.length === 0 ? (
-                <Message variant="info">Your cart is empty</Message>
+
+                <Message variant="info">Không có sản phẩm trong giỏ hàng. <Link to="/">Quay lại</Link></Message>
               ) : (
                 <ListGroup variant="flush">
                   {cart.cartItems.map((item, index) => (

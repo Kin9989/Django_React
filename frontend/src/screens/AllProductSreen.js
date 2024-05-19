@@ -87,10 +87,10 @@ function AllProductSreen({ history }) {
           <SearchBox ></SearchBox>
         </Grid>
 
-        <Grid item xs={6} md={2}>
+        {/* <Grid item xs={6} md={2}>
 
-        </Grid>
-        <Grid item xs={6} md={10}>
+        </Grid> */}
+        <Grid item xs={12} md={12}>
           <Item>  <Container >
             {/* {!keyword && <ProductCarousel />} */}
 

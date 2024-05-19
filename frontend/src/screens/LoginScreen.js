@@ -88,8 +88,9 @@ function LoginScreen({ location, history }) {
 
       }} >
         <Grid item xs={12} md={7}>
+          <h1 style={{ display: 'flex', justifyContent: "center" }}>Đăng nhập</h1>
           <FormContainer >
-            <h1 style={{}}>Đăng kí</h1>
+
 
             {error && <Message variant="danger">{error}</Message>}
             {loading && <Loader />}

@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 import PropTypes from 'prop-types';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
@@ -15,7 +15,30 @@ import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import TextAnimate from './TextAnimate';
+
+
+import React, { useEffect } from "react";
+
+/* REACT BOOTSTRAP */
+import { Navbar, Nav, NavDropdown, } from "react-bootstrap";
+
+/* REACT ROUTER BOOTSTRAP */
+import { LinkContainer } from "react-router-bootstrap";
+
+/* REACT - REDUX */
+import { useDispatch, useSelector } from "react-redux";
+
+/* ACTION CREATORS */
+import { logout } from "../actions/userActions";
+import { listCategories } from "../actions/categoryActions";
+/* COMPONENTS */
+import SearchBox from "./SearchBox";
+
+import logo from "../logo.png";
+
+import { useHistory } from "react-router-dom";
+
+
 function Header() {
   const [open, setOpen] = React.useState(false);
 
@@ -37,7 +60,27 @@ function Header() {
     }
   };
 
+  /* PULLING A PART OF STATE FROM THE ACTUAL STATE IN THE REDUX STORE */
+  const categoryList = useSelector((state) => state.categoryList);
+  const userLogin = useSelector((state) => state.userLogin);
+  const history = useHistory();
+  const { userInfo } = userLogin;
+  const { loading, error, categories } = categoryList;
+  /* HANDLER */
+  const dispatch = useDispatch();
 
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
+
+  useEffect(() => {
+    dispatch(listCategories());
+  }, [dispatch]);
+
+  const handleCategorySelect = (categoryId) => {
+    // Điều hướng người dùng đến màn hình hiển thị sản phẩm của danh mục đó
+    history.push(`/category/${categoryId}/products`);
+  };
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -49,8 +92,9 @@ function Header() {
           align="center"
           noWrap
           sx={{ flex: 1 }}
+          onClick={() => history.push("/")}
         >
-          {/* {title} */}
+          
           VIệt Thành
 
           
@@ -58,13 +102,23 @@ function Header() {
         {/* <IconButton>
           <SearchIcon />
         </IconButton> */}
-        <Button variant="outlined" size="small">
-          Sign-in
+{userInfo ? (
+                <div></div>
+              ) : (
+                <Button variant="outlined" size="small"    href="#/register" >
+          đăng kí
         </Button>
+              )}
         
-        <Button variant="outlined" size="small" sx={{ ml: 1 }}>
-          Sign up
+        {userInfo ? (
+                <div></div>
+              ) : (
+          <Button variant="outlined" size="small" sx={{ ml: 1 }} href="#/login" >
+          đăng nhập
         </Button>
+              )}
+        
+        
       </Toolbar>
       <Toolbar
         component="nav"
@@ -113,32 +167,18 @@ function Header() {
           >
 
 
-            <div >dddd</div>
+            {/* <Sitemark /> */}
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              
+              
               <Button
                 variant="text"
                 color="info"
                 size="small"
-                onClick={() => scrollToSection('features')}
-                href="products"
+                
+                // onClick={() => scrollToSection('highlights')}
               >
-                Sản Phẩm
-              </Button>
-              <Button
-                variant="text"
-                color="info"
-                size="small"
-                onClick={() => scrollToSection('testimonials')}
-              >
-                Testimonials
-              </Button>
-              <Button
-                variant="text"
-                color="info"
-                size="small"
-                onClick={() => scrollToSection('highlights')}
-              >
-                Highlights
+                LIÊN HỆ
               </Button>
               <Button
                 variant="text"
@@ -146,17 +186,36 @@ function Header() {
                 size="small"
                 onClick={() => scrollToSection('pricing')}
               >
-                Pricing
+                BÀI VIẾT
               </Button>
+
               <Button
                 variant="text"
                 color="info"
                 size="small"
-                onClick={() => scrollToSection('faq')}
-                sx={{ minWidth: 0 }}
+                onClick={() => scrollToSection('features')}
+                href="#/products"
               >
-                FAQ
+                SẢN PHẨM
               </Button>
+              <Button variant="text" color="info" size="small">
+                    <LinkContainer to="">
+                      <NavDropdown title={<span style={{ color: '#0288d1' }}>DANH MỤC</span>} id="basic-nav-dropdown">
+                        {loading ? (
+                          <NavDropdown.Item>Loading...</NavDropdown.Item>
+                        ) : error ? (
+                          <NavDropdown.Item>Error! Không thể tải danh mục.</NavDropdown.Item>
+                        ) : (
+                          categories.map((category) => (
+                            <NavDropdown.Item key={category.id} onClick={() => handleCategorySelect(category.id)} style={{ color: 'blue' }}>
+                              {category.name}
+                            </NavDropdown.Item>
+                          ))
+                        )}
+                      </NavDropdown>
+                    </LinkContainer>
+              </Button>
+              
             </Box>
           </Box>
           <Box
@@ -167,27 +226,48 @@ function Header() {
             }}
           >
             {/* <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} /> */}
-            <Button
-              color="primary"
-              variant="text"
-              size="small"
-              component="a"
-              href="/material-ui/getting-started/templates/sign-in/"
-              target="_blank"
-            >
-              Sign in
-            </Button>
-            <Button
-              color="primary"
-              variant="contained"
-              size="small"
-              component="a"
-              href="/material-ui/getting-started/templates/sign-up/"
-              target="_blank"
-            >
-              Sign up
-            </Button>
+            <LinkContainer to="/cart">
+                    <Nav.Link>
+                    <i className="fas fa-shopping-cart"></i> 
+                    </Nav.Link>
+            </LinkContainer>
+
+
+                           {userInfo ? (
+                <NavDropdown title={userInfo.name} id="username">
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>Hồ sơ</NavDropdown.Item>
+                  </LinkContainer>
+
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Đăng xuất
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <i className="fas fa-user"></i> Login
+                  </Nav.Link>
+                </LinkContainer>
+              )}
+
+              {userInfo && userInfo.isAdmin && (
+                <LinkContainer to="/admin/dashboard">
+                  <Nav.Link>
+                    <i className="fas fa-user"></i> Quản trị
+                  </Nav.Link>
+                </LinkContainer>
+                
+              )}
+            
+              
+
+
           </Box>
+          
+          
+          
+          
           <Box sx={{ display: { sm: 'flex', md: 'none' } }}>
             <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
               <MenuIcon />
@@ -225,29 +305,48 @@ function Header() {
                   Pricing
                 </MenuItem>
                 <MenuItem onClick={() => scrollToSection('faq')}>FAQ</MenuItem>
-                <MenuItem>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    component="a"
-                    href="/material-ui/getting-started/templates/sign-up/"
-                    target="_blank"
-                    fullWidth
-                  >
-                    Sign up
-                  </Button>
+                <MenuItem fullWidth>
+                {userInfo ? (
+                <NavDropdown title={userInfo.name} id="username">
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <i className="fas fa-user"></i> Login
+                  </Nav.Link>
+                </LinkContainer>
+              )}
                 </MenuItem>
+
+                <MenuItem fullWidth>
+                {userInfo && userInfo.isAdmin && (
+                <LinkContainer to="/admin/dashboard">
+                  <Nav.Link>
+                    <i className="fas fa-user"></i> ADMIN
+                  </Nav.Link>
+                </LinkContainer>
+                
+              )}
+                </MenuItem>
+
+                
                 <MenuItem>
-                  <Button
-                    color="primary"
-                    variant="outlined"
-                    component="a"
-                    href="/material-ui/getting-started/templates/sign-in/"
-                    target="_blank"
-                    fullWidth
-                  >
-                    Sign in
-                  </Button>
+                  <LinkContainer to="/cart">
+                    <Nav.Link>
+                    <i className="fas fa-shopping-cart"></i> GIỎ HÀNG
+                    </Nav.Link>
+                  </LinkContainer>
+
+                
+
+              
                 </MenuItem>
               </Box>
             </Drawer>

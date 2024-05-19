@@ -86,7 +86,7 @@ const ProductCreateScreen = ({ match, history }) => {
 
     return (
         <FormContainer>
-            <h1>Create Product</h1>
+            <h1>Thêm SẢN PHẨM</h1>
             {loading && <Loader />}
             {error && <Message variant="danger">{error}</Message>}
             {categoryLoading ? (
@@ -96,27 +96,27 @@ const ProductCreateScreen = ({ match, history }) => {
             ) : (
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId="name">
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>Tên Sản Phẩm</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter name"
+                            placeholder="Vui Lòng Nhập Tên Sản Phẩm"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />
                     </Form.Group>
 
                     <Form.Group controlId="price">
-                        <Form.Label>Price</Form.Label>
+                        <Form.Label>Giá</Form.Label>
                         <Form.Control
                             type="number"
-                            placeholder="Enter price"
+                            placeholder="Vui Lòng Nhập Giá"
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
                         />
                     </Form.Group>
 
                     <Form.Group controlId="image">
-                        <Form.Label>Image</Form.Label>
+                        <Form.Label>Thêm Hình Ảnh</Form.Label>
                         <Form.Control
                             type="file"
                             onChange={(e) => setImage(e.target.files[0])} // Lưu hình ảnh vào state khi người dùng chọn
@@ -125,58 +125,63 @@ const ProductCreateScreen = ({ match, history }) => {
                     </Form.Group>
 
                     <Form.Group controlId="brand">
-                        <Form.Label>Brand</Form.Label>
+                        <Form.Label>Nhãn Hàng</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter brand"
+                            placeholder="Vui Lòng Nhập Tên Nhãn Hàng"
                             value={brand}
                             onChange={(e) => setBrand(e.target.value)}
                         />
                     </Form.Group>
 
-                    <Form.Control
-                        as="select"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                    >
-                        <option value="">Select category</option>
-                        {categories.map((cat) => (
-                            <option key={cat.id} value={cat.id}>
-                                {cat.name}
-                            </option>
-                        ))}
-                    </Form.Control>
+                    <Form.Group>
+                        <Form.Label>Danh Mục</Form.Label>
+                        <Form.Control
+                            as="select"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+
+                        >
+
+                            <option value="">  Vui Lòng Nhập Tên Danh mục</option>
+                            {categories.map((cat) => (
+                                <option key={cat.id} value={cat.id}>
+                                    {cat.name}
+                                </option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
 
 
 
                     <Form.Group controlId="countInStock">
-                        <Form.Label>Count In Stock</Form.Label>
+                        <Form.Label>Số Lượng Hàng Tồn</Form.Label>
                         <Form.Control
                             type="number"
-                            placeholder="Enter countInStock"
+
                             value={countInStock}
                             onChange={(e) => setCountInStock(e.target.value)}
                         />
                     </Form.Group>
 
                     <Form.Group controlId="description">
-                        <Form.Label>Description</Form.Label>
+                        <Form.Label>Mô Tả</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Enter description"
+                            placeholder="Vui Lòng NHẬP Mô Tả Sản Phẩm"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         />
                     </Form.Group>
 
-                    <Button type="submit" variant="primary">
-                        Create
+                    <Button type="submit" variant="primary" className="mt-3">
+                        Tạo
                     </Button>
                 </Form>
             )}
 
             <Link to="/admin/productlist" className="btn btn-light my-3">
-                Go Back
+                Quay lại
             </Link>
         </FormContainer>
     );

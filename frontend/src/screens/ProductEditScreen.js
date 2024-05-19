@@ -141,7 +141,7 @@ function ProductEditScreen({ match, history }) {
 
   return (
     <div>
-      <Link to="/admin/productlist">Go Back</Link>
+      <Link to="/admin/productlist">Quay lại</Link>
 
       <FormContainer>
         <h1>Edit Product</h1>

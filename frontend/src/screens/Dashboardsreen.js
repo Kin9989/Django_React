@@ -122,19 +122,41 @@ const TrangCuaBan = () => {
                 </Grid>
             </Grid>
 
-            <h1>Sản phẩm được mua nhiều nhất</h1>
-            <p>Tên sản phẩm: {statsData.topProductPaid.name}</p>
-            <p>Tổng Số Lượng: {statsData.topProductPaid.total_qty}</p>
 
-            <h1>Người dùng chi tiêu nhiều nhất:</h1>
-            <p>ID Người dùng: {statsData.userPaidMoneyHigh.user_id}</p>
-            <p>Tên người dùng: {statsData.userPaidMoneyHigh.user__username}</p>
-            <p>Tổng số tiền: {statsData.userPaidMoneyHigh.total_money}</p>
+            <Grid container spacing={2} style={{ marginTop: '20px' }}>
+                <Grid xs={12} md={4} >
+                    <Item style={{ minHeight: "212px" }}>
+                        <h4>Sản phẩm được mua nhiều nhất</h4>
 
-            <h1>Người dùng có số lượng đơn hàng cao nhất:</h1>
-            <p>ID Người dùng: {statsData.userBoughtHigh.user_id}</p>
-            <p>Tên người dùng: {statsData.userBoughtHigh.user__username}</p>
-            <p>Tổng số đơn hàng: {statsData.userBoughtHigh.total_orders}</p>
+                        <p>Tên sản phẩm: {statsData.topProductPaid.name}</p>
+                        <p>Tổng Số Lượng: {statsData.topProductPaid.total_qty}</p>
+                    </Item>
+                </Grid>
+
+                <Grid xs={12} md={4}>
+                    <Item>
+                        <h4>Người dùng chi tiêu nhiều nhất:</h4>
+                        <p>ID Người dùng: {statsData.userPaidMoneyHigh.user_id}</p>
+                        <p>Tên người dùng: {statsData.userPaidMoneyHigh.user__username}</p>
+                        <p>Tổng số tiền: {statsData.userPaidMoneyHigh.total_money}</p>
+                    </Item>
+                </Grid>
+
+
+                <Grid xs={12} md={4}>
+                    <Item>
+                        <h4>Người dùng có số lượng đơn hàng cao nhất:</h4>
+                        <p>ID Người dùng: {statsData.userBoughtHigh.user_id}</p>
+                        <p>Tên người dùng: {statsData.userBoughtHigh.user__username}</p>
+                        <p>Tổng số đơn hàng: {statsData.userBoughtHigh.total_orders}</p>
+                    </Item>
+                </Grid>
+            </Grid>
+
+
+
+
+
 
             <Grid container spacing={2}>
                 <Grid xs={12} md={5}>
