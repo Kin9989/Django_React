@@ -74,7 +74,7 @@ function CartScreen({ match, location, history }) {
                     <Link to={`/product/${item.product}`}>{item.name}</Link>
                   </Col>
 
-                  {/* <Col>₹{item.price}</Col> */}
+                 
                   <Col>{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(item.price)}</Col>
 
                   <Col md={3}>

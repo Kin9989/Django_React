@@ -176,7 +176,7 @@ function Header() {
                 color="info"
                 size="small"
                 
-                // onClick={() => scrollToSection('highlights')}
+                href="#/contact"
               >
                 LIÊN HỆ
               </Button>
@@ -185,6 +185,7 @@ function Header() {
                 color="info"
                 size="small"
                 onClick={() => scrollToSection('pricing')}
+                href="#/blog"
               >
                 BÀI VIẾT
               </Button>
