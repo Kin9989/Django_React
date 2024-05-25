@@ -3,11 +3,6 @@ from base.views import order_views as views
 
 
 urlpatterns = [
-    path("coupons/", views.get_coupons, name="get_coupons"),
-    path("coupons/add/", views.add_coupon, name="add_coupon"),
-    path("coupons/<int:pk>/", views.delete_coupon, name="delete_coupon"),
-    path("coupons/<int:pk>/update/", views.update_coupon, name="update_coupon"),
-    path("check_coupon/", views.check_coupon),
     path("", views.getOrders, name="allorders"),
     path("add/", views.addOrderItems, name="orders-add"),
     path("myorders/", views.getMyOrders, name="myorders"),
