@@ -33,7 +33,9 @@ const ProductCreateScreen = ({ match, history }) => {
             history.push("/admin/productlist");
         }
         dispatch(listCategories());
-        console.log("Categories:", categories);
+        // console.log("Categories:", categories);
+        console.log("");
+
     }, [dispatch, history, success]);
 
     const submitHandler = async (e) => {

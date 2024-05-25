@@ -80,6 +80,25 @@ def registerUser(request):
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(["POST"])
+@permission_classes([IsAdminUser])
+def AdminRegisterUser(request):
+    data = request.data
+    try:
+        user = User.objects.create(
+            first_name=data["name"],
+            username=data["email"],
+            password=make_password(data["password"]),
+        )
+
+        serializer = UserSerializerWithToken(user, many=False)
+        return Response(serializer.data)
+
+    except:
+        message = {"detail": "User with this email is already registered"}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def getUserProfile(request):
@@ -145,6 +164,35 @@ def deleteUser(request, pk):
     return Response("User was deleted")
 
 
+@api_view(["GET"])
+def getBlogs(request):
+    blogs = Post.objects.all()
+    serializer = PostSerializer(blogs, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["DELETE"])
+def deleteBlogById(request, pk):
+    try:
+        blog = Post.objects.get(pk=pk)
+    except Post.DoesNotExist:
+        return Response("Blog not found", status=status.HTTP_404_NOT_FOUND)
+
+    blog.delete()
+    return Response("Delete blog ok", status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+def getBlogById(request, pk):
+    try:
+        blog = Post.objects.get(pk=pk)
+    except Post.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = PostSerializer(blog)
+    return Response(serializer.data)
+
+
 @api_view(["POST"])
 @permission_classes([IsAdminUser])
 def addBlog(request):
@@ -156,48 +204,16 @@ def addBlog(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET"])
-def getBlogs(request):
-    if request.method == "GET":
-        blogs = Post.objects.all()
-        serializer = PostSerializer(blogs, many=True)
-        return Response(serializer.data)
-
-
-@api_view(["DELETE"])
-def deleteBlogById(request, pk):
-    try:
-        blog = Post.objects.get(pk=pk)
-    except Post.DoesNotExist:
-        return Response("Blog not found")
-
-    if request.method == "DELETE":
-        blog.delete()
-        return Response("Delete blog ok")
-
-
-@api_view(["GET"])
-def getBlogById(request, pk):
-    try:
-        blog = Post.objects.get(pk=pk)
-    except Post.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == "GET":
-        serializer = PostSerializer(blog)
-        return Response(serializer.data)
-
-
 @api_view(["PUT"])
 def updateBlogById(request, pk):
     try:
         blog = Post.objects.get(pk=pk)
     except Post.DoesNotExist:
-        return Response("Blog not found")
+        return Response("Blog not found", status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "PUT":
-        serializer = PostSerializer(blog, data=request.data)
+        serializer = PostSerializer(blog, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response("Update success!")
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

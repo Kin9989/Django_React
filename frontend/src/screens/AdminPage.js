@@ -28,6 +28,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { HashRouter as Router, Route } from "react-router-dom";
 
 import AdminDashboard from '../components/AdminCom/AdminDashboard';
+import AddPost from './PostAdd';
+
 
 
 const Item = styled(Paper)(({ theme }) => ({

@@ -100,7 +100,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
 
     /* MAKING API CALL TO GET THE ORDER DETAILS */
     const { data } = await axios.get(`/api/orders/${id}/`, config);
-    console.log("hellllllllll", data);
+   
 
     /* IF GET REQUEST SUCCESSFULL WE DISPATCH & SEND THE PAYLOAD TO OUR REDUCER */
     dispatch({
@@ -333,9 +333,9 @@ export const getOrderStatsUP = () => async (dispatch, getState) => {
 
     // Make request to get order statistics
     const { data } = await axios.get('/admin/orders/stats/UP/', config);
-    console.log("dâda", data);
+
     // Log the data received from the API
-    // console.log(data);
+   
 
     // Dispatch success action with the data received
     dispatch({

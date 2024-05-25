@@ -79,13 +79,14 @@ function ProductEditScreen({ match, history }) {
   const submitHandler = (e) => {
     e.preventDefault();
     console.log({
-      name,
-      price,
-      image,
-      brand,
-      category,
-      description,
-      countInStock,
+      // name,
+      // price,
+      // image,
+      // brand,
+      // category,
+      // description,
+      // countInStock,
+      "": "",
     });
     dispatch(
       updateProduct({

@@ -2,7 +2,7 @@
 from django.core.exceptions import RequestDataTooBig
 from django.shortcuts import render
 from datetime import datetime, timedelta
-
+from decimal import Decimal
 from rest_framework import status
 
 # Rest Framework Import
@@ -15,8 +15,9 @@ from rest_framework.serializers import Serializer
 # Local Import
 from base.products import products
 from base.models import *
+from base.models import Coupon
 from base.serializers import ProductSerializer, OrderSerializer
-
+from base.serializers import CouponSerializer
 
 from django.db.models import Count, Sum
 from django.utils.timezone import now
@@ -27,9 +28,9 @@ from django.utils.timezone import now
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def addOrderItems(request):
+
     user = request.user
     data = request.data
-    print(data)
     orderItems = data["orderItems"]
 
     if orderItems and len(orderItems) == 0:
@@ -37,13 +38,30 @@ def addOrderItems(request):
             {"detail": "No Order Items", "status": status.HTTP_400_BAD_REQUEST}
         )
     else:
-        # (1) Create Order
+        # Calculate total price
+        total_price = Decimal(0)
+        for i in orderItems:
+            product = Product.objects.get(_id=i["product"])
+            total_price += product.price * i["qty"]
+
+        # Check if there is a coupon code in the request
+        coupon_code = data.get("coupon_code")
+        if coupon_code:
+            try:
+                coupon = Coupon.objects.get(code=coupon_code)
+                if coupon.is_active:
+                    # Apply discount from coupon
+                    total_price -= coupon.discount
+            except Coupon.DoesNotExist:
+                pass  # Handle case when coupon code is not found
+
+        # Create the order
         order = Order.objects.create(
             user=user,
             paymentMethod=data["paymentMethod"],
             taxPrice=data["taxPrice"],
             shippingPrice=data["shippingPrice"],
-            totalPrice=data["totalPrice"],
+            totalPrice=total_price,  # Use the calculated total price
         )
 
         # (2) Create Shipping Address
@@ -327,3 +345,64 @@ def get_order_statisticsUP(request):
             "total_revenueOder": total_revenueOder,
         }
     )
+
+
+# ----------------------coupon ----------------------
+
+
+@api_view(["GET"])
+@permission_classes([IsAdminUser])
+def get_coupons(request):
+    coupons = Coupon.objects.all()
+    serializer = CouponSerializer(coupons, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["POST"])
+@permission_classes([IsAdminUser])
+def add_coupon(request):
+    serializer = CouponSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAdminUser])
+def delete_coupon(request, pk):
+    try:
+        coupon = Coupon.objects.get(pk=pk)
+    except Coupon.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    coupon.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["PUT"])
+@permission_classes([IsAdminUser])
+def update_coupon(request, pk):
+    try:
+        coupon = Coupon.objects.get(pk=pk)
+    except Coupon.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = CouponSerializer(coupon, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def check_coupon(request):
+    code = request.data.get("code")
+    if not code:
+        return Response({"error": "Vui lòng nhập mã khuyến mãi"}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        coupon = Coupon.objects.get(code=code)
+        return Response({"discount": coupon.discount})
+    except Coupon.DoesNotExist:
+        return Response(
+            {"error": "Mã khuyến mãi không tồn tại"}, status=status.HTTP_404_NOT_FOUND
+        )
