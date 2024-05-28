@@ -49,10 +49,10 @@ function ShippingScreen({ history }) {
     <FormContainer>
       <CheckoutSteps step1 step2 />
 
-      <h1>Shipping</h1>
+      <h1>Thông tin giao hàng</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="address">
-          <Form.Label>Address</Form.Label>
+          <Form.Label>Địa chỉ</Form.Label>
           <Form.Control
             required
             type="text"
@@ -63,7 +63,7 @@ function ShippingScreen({ history }) {
         </Form.Group>
 
         <Form.Group controlId="city">
-          <Form.Label>City</Form.Label>
+          <Form.Label>Thành Phố</Form.Label>
           <Form.Control
             required
             type="text"
@@ -74,7 +74,7 @@ function ShippingScreen({ history }) {
         </Form.Group>
 
         <Form.Group controlId="postalCode">
-          <Form.Label>Postal Code</Form.Label>
+          <Form.Label>SĐT</Form.Label>
           <Form.Control
             required
             type="text"
@@ -85,7 +85,7 @@ function ShippingScreen({ history }) {
         </Form.Group>
 
         <Form.Group controlId="country">
-          <Form.Label>Country</Form.Label>
+          <Form.Label>Quốc gia</Form.Label>
           <Form.Control
             required
             type="text"

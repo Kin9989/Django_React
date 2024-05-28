@@ -138,7 +138,7 @@ function PlaceOrderScreen({ history }) {
             <ListGroup.Item>
               <h2>Order Items</h2>
               {cart.cartItems.length === 0 ? (
-                <Message variant="info">No items in the cart. <Link to="/">Go back</Link></Message>
+                <Message variant="info">No items in the cart. <Link to="/">Quay Lại</Link></Message>
               ) : (
                 <ListGroup variant="flush">
                   {cart.cartItems.map((item, index) => (
