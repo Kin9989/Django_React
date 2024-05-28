@@ -37,7 +37,7 @@ function ProductEditScreen({ match, history }) {
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("");
   const [uploading, setUploading] = useState(false);
-
+  const [preview, setPreview] = useState(""); // State for image preview
   const dispatch = useDispatch();
 
   /* PULLING A PART OF STATE FROM THE ACTUAL STATE IN THE REDUX STORE */
@@ -56,7 +56,6 @@ function ProductEditScreen({ match, history }) {
   } = productUpdate;
 
   useEffect(() => {
-    // CHECK IF PRODUCT WAS UDPATED
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET });
       history.push("/admin/productlist");
@@ -67,6 +66,7 @@ function ProductEditScreen({ match, history }) {
         setName(product.name);
         setPrice(product.price);
         setImage(product.image);
+        setPreview(product.image); // Set initial preview image
         setBrand(product.brand);
         setCategory(product.category);
         setCountInStock(product.countInStock);
@@ -76,22 +76,18 @@ function ProductEditScreen({ match, history }) {
     dispatch(listCategories());
   }, [dispatch, product, productId, history, successUpdate]);
 
-
-
-  /* HANDLERS */
-
   const submitHandler = (e) => {
     e.preventDefault();
     console.log({
-      name,
-      price,
-      image,
-      brand,
-      category,
-      description,
-      countInStock,
+      // name,
+      // price,
+      // image,
+      // brand,
+      // category,
+      // description,
+      // countInStock,
+      "": "",
     });
-    // DISPATCH TO UDPATE PRODUCT
     dispatch(
       updateProduct({
         _id: productId,
@@ -112,12 +108,12 @@ function ProductEditScreen({ match, history }) {
 
     formData.append("image", file);
     formData.append("product_id", productId);
-
+    window.location.reload()
     setUploading(true);
 
     try {
       const config = {
-        header: {
+        headers: {
           "Content-Type": "multipart/form-data",
         },
       };
@@ -128,16 +124,25 @@ function ProductEditScreen({ match, history }) {
         config
       );
 
-      setImage(data);
+      setImage(data); // Use the returned data as the image URL
+      setPreview(data); // Update preview after uploading
       setUploading(false);
+      console.log("Uploaded image URL: ", data); // Log the uploaded image URL
     } catch (error) {
+      console.error("Error uploading image: ", error);
       setUploading(false);
     }
   };
 
+  const handleImageChange = (e) => {
+    const url = e.target.value;
+    setImage(url);
+    setPreview(url); // Update preview when URL is entered
+  };
+
   return (
     <div>
-      <Link to="/admin/productlist">Go Back</Link>
+      <Link to="/admin/productlist">Quay lại</Link>
 
       <FormContainer>
         <h1>Edit Product</h1>
@@ -175,19 +180,22 @@ function ProductEditScreen({ match, history }) {
               <Form.Label>Image</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter Image"
+                placeholder="Enter Image URL"
                 value={image}
-                onChange={(e) => setImage(e.target.value)}
+                onChange={handleImageChange}
               />
-
               <Form.File
                 id="image-file"
                 label="Choose File"
                 custom
                 onChange={uploadFileHandler}
               />
-
               {uploading && <Loader />}
+              {preview && (
+                <div style={{ marginTop: 20 }}>
+                  <img src={preview} alt="Preview" style={{ maxWidth: '100%' }} />
+                </div>
+              )}
             </Form.Group>
 
             <Form.Group controlId="brand">

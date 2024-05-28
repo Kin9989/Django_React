@@ -255,7 +255,7 @@ function OrderScreen({ history, match }) {
                     //   amount={order.totalPrice}
                     //   onSuccess={successPaymentHandler}
                     // />
-                    console.log('hero')
+                    console.log('Nội thất việt thành ')
                   )}
                 </ListGroup.Item>
               )}

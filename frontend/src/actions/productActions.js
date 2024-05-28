@@ -285,13 +285,13 @@ export const listTopProducts = () => async (dispatch) => {
 export const getReviewsProduct = (productId) => async (dispatch) => {
   try {
     dispatch({ type: GET_REVIEWS_PRODUCT_REQUEST });
-    console.log('Dispatched GET_REVIEWS_PRODUCT_REQUEST');
+    // console.log('Dispatched GET_REVIEWS_PRODUCT_REQUEST');
 
     const { data } = await axios.get(`/api/products/${productId}/reviewsproduct/`);
-    console.log('Received data:', data);
+    // console.log('Received data:', data);
 
     dispatch({ type: GET_REVIEWS_PRODUCT_SUCCESS, payload: data });
-    console.log('Dispatched GET_REVIEWS_PRODUCT_SUCCESS');
+    // console.log('Dispatched GET_REVIEWS_PRODUCT_SUCCESS');
   } catch (error) {
     dispatch({
       type: GET_REVIEWS_PRODUCT_FAIL,

@@ -10,6 +10,7 @@ class Post(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     # author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
+    image = models.ImageField(upload_to="media/blogs/", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
@@ -79,7 +80,7 @@ class Review(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="orders_user"
+        User, on_delete=models.SET_NULL, null=True, related_name="orders"
     )
 
     paymentMethod = models.CharField(max_length=200, null=True, blank=True)
@@ -106,6 +107,18 @@ class Order(models.Model):
         return str(self.createdAt)
 
 
+class Coupon(models.Model):
+    code = models.CharField(max_length=50, unique=True, null=False, blank=False)
+    discount = models.DecimalField(
+        max_digits=12, decimal_places=2, null=False, blank=False
+    )
+    is_active = models.BooleanField(default=True)
+    createdAt = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+    def __str__(self):
+        return self.code
+
+
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
@@ -117,6 +130,14 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+
+class Payment_VNPay(models.Model):
+    order_id = models.IntegerField(default=0, null=True)
+    amount = models.FloatField(default=0.0, null=True)
+    order_desc = models.CharField(max_length=200, null=True, blank=True)
+    vnp_TransactionNo = models.CharField(max_length=200, null=True, blank=True)
+    vnp_ResponseCode = models.CharField(max_length=200, null=True, blank=True)
 
 
 class ShippingAddress(models.Model):

@@ -11,7 +11,7 @@ const CategoryEditScreen = () => {
     const dispatch = useDispatch();
 
     const categoryDetails = useSelector((state) => state.categoryDetails); // Select categoryDetails from Redux state
-    const { loading: categoryLoading, error: categoryError, category } = categoryDetails; // Destructure categoryDetails
+    const { loading: categoryLoading, error: categoryError, category, } = categoryDetails; // Destructure categoryDetails
 
     const categoryUpdate = useSelector((state) => state.categoryUpdate);
     const { loading: updateLoading, error: updateError, success: updateSuccess } = categoryUpdate;
@@ -26,7 +26,7 @@ const CategoryEditScreen = () => {
         if (!categoryLoading && !categoryError && category) {
             setName(category.name);
         }
-    }, [categoryLoading, categoryError, category]);
+    }, [categoryLoading, categoryError, category,]);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -35,27 +35,27 @@ const CategoryEditScreen = () => {
 
     return (
         <div>
-            <h1>Edit Category</h1>
-            {categoryLoading ? (
-                <p>Loading...</p>
-            ) : categoryError ? (
-                <p>Error: {categoryError}</p>
-            ) : (
-                <Form onSubmit={submitHandler}>
-                    <Form.Group controlId="name">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter category name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    </Form.Group>
-                    <Button type="submit" variant="primary">
-                        Update
-                    </Button>
-                </Form>
-            )}
+            <h1>Chỉnh Sửa Danh Mục</h1>
+            {categoryLoading && <p>Loading...</p>}
+            {updateError && <p>Lỗi: Vui lòng kiểm tra lại tên doanh mục </p>}
+            {updateSuccess && <p>Chỉnh Sửa Danh mục thành công</p>}
+
+
+            <Form onSubmit={submitHandler}>
+                <Form.Group controlId="name">
+                    <Form.Label>Tên Danh Mục</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Vui Lòng Nhập Tên DOanh Mục"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </Form.Group>
+                <Button type="submit" variant="primary" className="mt-2">
+                    Cập Nhật
+                </Button>
+            </Form>
+
         </div>
     );
 };

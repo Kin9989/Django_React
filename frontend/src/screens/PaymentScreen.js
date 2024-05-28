@@ -9,7 +9,7 @@ function PaymentScreen({ history }) {
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
-  const [paymentMethod, setPaymentMethod] = useState("PayPal");
+  const [paymentMethod, setPaymentMethod] = useState("offline");
 
   if (!shippingAddress.address) {
     history.push("./shipping");
@@ -20,7 +20,7 @@ function PaymentScreen({ history }) {
   const submitHandler = (e) => {
     e.preventDefault();
     const selectedPaymentMethod = e.target.elements.paymentMethod.value;
-    setPaymentMethod(selectedPaymentMethod === "offline" ? "offline" : "PayPal");
+    setPaymentMethod(selectedPaymentMethod);
     dispatch(savePaymentMethod(paymentMethod));
     history.push("/placeorder");
   };
@@ -30,17 +30,8 @@ function PaymentScreen({ history }) {
       <CheckoutSteps step1 step2 step3 />
       <Form onSubmit={submitHandler}>
         <Form.Group>
-          <Form.Label as="legend">Select Method</Form.Label>
+          <Form.Label as="legend">Chọn phương thức thanh toán</Form.Label>
           <Col>
-            <Form.Check
-              type="radio"
-              label="PayPal or Credit Card"
-              id="paypal"
-              name="paymentMethod"
-              value="PayPal"
-              checked={paymentMethod === "PayPal"}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            ></Form.Check>
             <Form.Check
               type="radio"
               label="Thanh toán nhận hàng"
@@ -50,10 +41,29 @@ function PaymentScreen({ history }) {
               checked={paymentMethod === "offline"}
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
+            <Form.Check
+              type="radio"
+              label="PayPal or Credit Card"
+              id="paypal"
+              name="paymentMethod"
+              value="PayPal"
+              checked={paymentMethod === "PayPal"}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            ></Form.Check>
+
+            <Form.Check
+              type="radio"
+              label="VnPay"
+              id="offline"
+              name="paymentMethod"
+              value="VnPay"
+              checked={paymentMethod === "VnPay"}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            ></Form.Check>
           </Col>
         </Form.Group>
         <Button type="submit" variant="primary" className="my-3">
-          Continue
+          Tiếp tục
         </Button>
       </Form>
     </FormContainer>

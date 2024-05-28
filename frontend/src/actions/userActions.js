@@ -178,7 +178,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 
 /* ACTION CREATOR USED IN UPDATING USER DETAILS IN ProfileScreen COMPONENT  */
 export const updateUserProfile = (user) => async (dispatch, getState) => {
-  console.log("updateUserProfile", user);
+  // console.log("updateUserProfile", user);
   try {
     dispatch({
       type: USER_UPDATE_PROFILE_REQUEST,

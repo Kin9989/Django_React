@@ -42,11 +42,11 @@ const CategoryListScreen = ({ history }) => {
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'name', headerName: 'NAME', width: 200 },
+        { field: 'name', headerName: 'Tên Danh mục', width: 200 },
 
         {
             field: 'action',
-            headerName: 'ACTION',
+            headerName: '',
             sortable: false,
             width: 330,
             renderCell: (params) => (
@@ -59,7 +59,7 @@ const CategoryListScreen = ({ history }) => {
                         color="primary"
                         style={{ marginLeft: '5px' }}
                     >
-                        Edit
+                        Sửa
                     </Button>
 
 
@@ -70,7 +70,7 @@ const CategoryListScreen = ({ history }) => {
                         style={{ marginLeft: '5px' }}
                         onClick={() => deleteHandler(params.row.id)}
                     >
-                        Delete
+                        Xóa
                     </Button>
 
 

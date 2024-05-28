@@ -86,13 +86,13 @@ function ProductListScreen({ history }) {
 
   const columns = [
     { field: '_id', headerName: 'ID', width: 70 },
-    { field: 'name', headerName: 'NAME', width: 200 },
-    { field: 'price', headerName: 'PRICE', width: 130 },
-    { field: 'categoryName', headerName: 'CATEGORY', width: 200, },
-    { field: 'brand', headerName: 'BRAND', width: 130 },
+    { field: 'name', headerName: 'Tên Sản Phẩm', width: 200 },
+    { field: 'price', headerName: 'Giá', width: 130 },
+    { field: 'categoryName', headerName: 'Danh Mục', width: 200, },
+    { field: 'brand', headerName: 'Nhãn hàng', width: 130 },
     {
       field: 'action',
-      headerName: 'ACTION',
+      headerName: '',
       sortable: false,
       width: 330,
       renderCell: (params) => (
@@ -105,7 +105,7 @@ function ProductListScreen({ history }) {
             color="primary"
             style={{ marginLeft: '5px' }}
           >
-            Edit
+            Sửa
           </Button>
           <Button
             variant="outlined"
@@ -114,7 +114,7 @@ function ProductListScreen({ history }) {
             style={{ marginLeft: '5px' }}
             onClick={() => deleteHandler(params.row._id)}
           >
-            Delete
+            Xóa
           </Button>
           <Button
             startIcon={<CommentIcon />}
@@ -124,7 +124,7 @@ function ProductListScreen({ history }) {
             size="small"
             style={{ marginLeft: '5px' }}
           >
-            Xem
+            Xem Bình Luận
           </Button>
 
         </div>
@@ -139,7 +139,7 @@ function ProductListScreen({ history }) {
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item>
           <Typography variant="h4" component="h1">
-            Products
+            Sản Phẩm
           </Typography>
         </Grid>
         <Grid item>

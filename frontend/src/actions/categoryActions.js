@@ -200,7 +200,7 @@ export const listProductsByCategory = (categoryId) => async (dispatch) => {
 
 
 
-        console.log("hellodata", data); // Kiểm tra dữ liệu trả về từ API
+
         dispatch({
             type: PRODUCT_LIST_BY_CATEGORY_SUCCESS,
             payload: data,

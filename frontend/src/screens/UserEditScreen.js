@@ -69,7 +69,7 @@ function UserEditScreen({ match, history }) {
 
   return (
     <div>
-      <Link to="/admin/userlist">Go Back</Link>
+      <Link to="/admin/userlist">Quay lại</Link>
 
       <FormContainer>
         <h1>Edit User</h1>

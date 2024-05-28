@@ -59,7 +59,7 @@ function CartScreen({ match, location, history }) {
         <h1>Giỏ Hàng</h1>
         {cartItems.length === 0 ? (
           <Message variant="info">
-            Your cart is empty. <Link to="/">Go Back</Link>
+            Không có sản phẩm trong giỏ hàng. <Link to="/">Quay lại</Link>
           </Message>
         ) : (
           <ListGroup variant="flush">
@@ -74,7 +74,7 @@ function CartScreen({ match, location, history }) {
                     <Link to={`/product/${item.product}`}>{item.name}</Link>
                   </Col>
 
-                  {/* <Col>₹{item.price}</Col> */}
+                 
                   <Col>{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(item.price)}</Col>
 
                   <Col md={3}>

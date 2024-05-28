@@ -26,8 +26,8 @@ const CategoryCreateScreen = () => {
         <div>
             <h1>Tạo Danh Mục</h1>
             {loading && <p>Loading...</p>}
-            {error && <p>Error: {error}</p>}
-            {success && <p>Category created successfully</p>}
+            {error && <p>Lỗi: Vui lòng kiểm tra lại tên doanh mục </p>}
+            {success && <p>Tạo Danh mục thành công</p>}
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId="name">
                     <Form.Label>Tên danh mục</Form.Label>
@@ -38,8 +38,8 @@ const CategoryCreateScreen = () => {
                         onChange={(e) => setName(e.target.value)}
                     />
                 </Form.Group>
-                <Button type="submit" variant="primary">
-                    Create
+                <Button type="submit" variant="primary" className="mt-2">
+                    Tạo
                 </Button>
             </Form>
         </div>

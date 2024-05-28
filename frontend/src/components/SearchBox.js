@@ -68,7 +68,7 @@ function SearchBox() {
 
     // WHEN USER HITS SUBMIT, REDIRECT TO HOME PAGE TO SEE PRODUCTS AND APPEND ?keyword=...IN URL
     if (keyword) {
-      history.push(`/?keyword=${keyword}&page=1`);
+      history.push(`/products/?keyword=${keyword}&page=1`);
     } else {
       // IF WE HIT SUBMIT WITHOUT KEYWORD, WE DON'T WANT THE USER TO GET REDIRECTED IN THAT CASE RATHER STAY ON WHATEVER PAGE HE WAS
       history.push(history.push(history.location.pathname));

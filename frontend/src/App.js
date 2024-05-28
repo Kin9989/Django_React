@@ -29,11 +29,17 @@ import CategoryCreateScreen from "./screens/CategoryCreateScreen";
 
 import CategoryByProductScreen from "./screens/CategoryByProductScreen";
 
-
+import AllProductSreen from "./screens/AllProductSreen"
 
 import OrderListScreen from "./screens/OrderListScreen";
+import ContactScreen from "./screens/ContactScreen";
+import BlogScreen from "./screens/BlogScreen";
+
+
+
+
 import Caurousel from "../src/components/BodyHomePage/Caurousel";
-import Abc from "../src/screens/abc"
+// import Abc from "../src/screens/abc"
 /* REACT ROUTER */
 import { HashRouter as Router, Route } from "react-router-dom";
 
@@ -44,9 +50,13 @@ function App() {
       {/* <Caurousel></Caurousel> */}
       {/* <Headera /> */}
 
-      <Route path="/blog" component={Abc} />
+
       <Route exact path="/" component={HomeScreen} />
       <Route path="/login" component={LoginScreen} />
+      <Route path="/contact" component={ContactScreen} />
+      <Route path="/blog" component={BlogScreen} />
+
+
 
       <Route path="/register" component={RegisterScreen} />
 
@@ -60,7 +70,11 @@ function App() {
 
       <Route path="/order/:id" component={OrderScreen} />
 
+
+      <Route path="/products" component={AllProductSreen} />
+
       <Route path="/product/:id" component={ProductScreen} />
+
 
       <Route path="/cart/:id?" component={CartScreen} />
 

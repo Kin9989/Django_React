@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["id", "_id", "username", "email", "name", "isAdmin"]
+        fields = ["id", "_id", "username", "email", "name", "isAdmin", "last_name"]
 
     def get__id(self, obj):
         return obj.id
@@ -32,7 +32,16 @@ class UserSerializerWithToken(UserSerializer):
 
     class Meta:
         model = User
-        fields = ["id", "_id", "username", "email", "name", "isAdmin", "token"]
+        fields = [
+            "id",
+            "_id",
+            "username",
+            "email",
+            "name",
+            "isAdmin",
+            "token",
+            "last_name",
+        ]
 
     def get_token(self, obj):
         token = RefreshToken.for_user(obj)
@@ -106,4 +115,10 @@ class CategorySerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
+        fields = "__all__"
+
+
+class CouponSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Coupon
         fields = "__all__"
