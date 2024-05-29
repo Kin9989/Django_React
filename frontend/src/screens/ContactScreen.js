@@ -9,7 +9,11 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import EmailIcon from '@mui/icons-material/Email';
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
 
@@ -63,11 +67,60 @@ const ContactScreen = () => {
                 boxShadow: 'rgba(240, 46, 170, 0.4) -5px 5px, rgba(240, 46, 170, 0.3) -10px 10px, rgba(240, 46, 170, 0.2) -15px 15px, rgba(240, 46, 170, 0.1) -20px 20px, rgba(240, 46, 170, 0.05) -25px 25px',
 
             }} >
-                <Grid item xs={12} md={12}>
+
+                <Grid item xs={12} md={6}>
+                    <div className='mx-5 my-5'>
+                        <h1> Thông tin của chúng tôi</h1>
+                        <div>
+
+
+                            <Grid container spacing={2} columns={12}  >
+                                <Grid xs={1} lg={1} className="">
+                                    <HomeOutlinedIcon fontSize="large" />
+                                </Grid>
+                                <Grid xs={12} lg={8}>
+                                    <span style={{ fontSize: '24px', fontWeight: '600' }}>Địa chỉ</span><br />
+                                    <span style={{ fontSize: '18px' }}>Cư xá Thanh Đa Lô 1 Phường 27 Bình Thạnh </span>
+                                </Grid>
+                            </Grid>
+                            <Grid container spacing={2} columns={12}  >
+                                <Grid xs={1} lg={1} className="">
+                                    <PhoneAndroidIcon fontSize="large" />
+                                </Grid>
+                                <Grid xs={15} lg={8}>
+                                    <span style={{ fontSize: '24px', fontWeight: '600' }}>Sđt</span><br />
+                                    <a style={{ fontSize: '18px' }} tel="079 2826 567">079 2826 567 </a>
+                                </Grid>
+                            </Grid>
+                            <Grid container spacing={2} columns={12}  >
+                                <Grid xs={1} lg={1} className="">
+                                    <EmailIcon fontSize="large" />
+                                </Grid>
+                                <Grid xs={8} lg={8}>
+                                    <span style={{ fontSize: '24px', fontWeight: '600' }}>Email</span><br />
+                                    <a style={{ fontSize: '18px' }} href="mailto:kinranx@gmail.com">kinranx@gmail.com</a>
+                                </Grid>
+                            </Grid>
+                            {/* <Grid container spacing={2} columns={12}  >
+                                <Grid xs={1} lg={1} className="">
+                                    <FacebookIcon fontSize="large" />
+                                </Grid>
+                                <Grid xs={8} lg={8}>
+                                    <span style={{ fontSize: '24px', fontWeight: '600' }}>Fanpage</span><br />
+                                    <a href="https://www.facebook.com/thietkedankaraoke" style={{ fontSize: '18px' }} rel="noopener noreferrer" target="_blank">https://www.facebook.com/thietkedankaraoke</a>
+
+                                </Grid>
+                            </Grid> */}
+                        </div>
+                    </div>
+
+
+                </Grid>
+                <Grid item xs={12} md={6}>
 
 
                     <Box component="form" ref={form} noValidate onSubmit={sendEmail} sx={{ ml: 5, mt: 5 }}>
-                        <h1 style={{}}>Liên Hệ</h1>
+                        <h1 style={{}}>Phản hồi</h1>
                         <FormControl defaultValue="" required className='mt-2'>
                             <Label>Tên</Label>
                             <StyledInput placeholder="Nhập tên của bạn" name="user_name" />
@@ -113,7 +166,7 @@ const ContactScreen = () => {
 const StyledInput = styled(Input)(
     ({ theme }) => `
   .${inputClasses.input} {
-    width: 500px;
+    width: 300px;
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 0.875rem;
     font-weight: 400;
@@ -141,7 +194,7 @@ const StyledInput = styled(Input)(
 const TextareaAutosize = styled(BaseTextareaAutosize)(
     ({ theme }) => `
     box-sizing: border-box;
-    width: 500px;
+    width: 300px;
    
 
     font-family: 'IBM Plex Sans', sans-serif;

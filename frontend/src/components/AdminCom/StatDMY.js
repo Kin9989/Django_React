@@ -57,12 +57,12 @@ const StatsDMY = () => {
 
     };
 
-    const valueFormatter = (value) => `$${value.toFixed(2)}`;
+    const valueFormatter = (value) => `${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value)}`;
 
     return (
         <div>
             <div>
-                <label htmlFor="year">chọn năm:</label>
+                <label htmlFor="year">Chọn năm:</label>
                 <input
                     type="number"
                     id="year"

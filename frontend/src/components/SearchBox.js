@@ -85,7 +85,7 @@ function SearchBox() {
         <StyledInputBase
           type="text"
           name="q"
-          placeholder="Search…"
+          placeholder="Tìm kiếm SP "
           onChange={(e) => setKeyword(e.target.value)}
           inputProps={{ 'aria-label': 'search' }}
         />

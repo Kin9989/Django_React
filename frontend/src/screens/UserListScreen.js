@@ -48,7 +48,7 @@ function UserListScreen({ history }) {
 
   return (
     <div>
-      <h1>Users</h1>
+      <h1>Quản lý Người Dùng </h1>
 
       {loading ? (
         <Loader />
@@ -59,7 +59,7 @@ function UserListScreen({ history }) {
           <thead>
             <tr>
               <th>ID</th>
-              <th>NAME</th>
+              <th>Tên </th>
               <th>EMAIL</th>
               <th>ADMIN</th>
               <th></th>

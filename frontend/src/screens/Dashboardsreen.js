@@ -90,7 +90,7 @@ const TrangCuaBan = () => {
                 </Grid>
                 <Grid xs={6} md={3}>
                     <Item>
-                        <span>Tổng Doanh Thu Đã Bán Hôm Nay</span>
+                        <span>Tổng Doanh Thu Đã Bán Hôm Qua</span>
                         <h4 style={{ marginTop: '10px' }}>{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(statsData.yesterday_revenue)}</h4>
                         <div>
 

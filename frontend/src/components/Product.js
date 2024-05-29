@@ -110,9 +110,9 @@ function Product({ product }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        {/* <IconButton aria-label="add to favorites">
           <AddShoppingCartIcon />
-        </IconButton>
+        </IconButton> */}
 
 
         {/* <IconButton aria-label="share">
