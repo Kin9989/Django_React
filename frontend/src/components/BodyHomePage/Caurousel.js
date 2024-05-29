@@ -1,6 +1,6 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import ExampleCarouselImage from '../BodyHomePage/ImgBaner/Banner.png'
+// import ExampleCarouselImage from '../BodyHomePage/ImgBaner/Banner.png'
 import Image from 'react-bootstrap/Image';
 function UncontrolledExample() {
     return (

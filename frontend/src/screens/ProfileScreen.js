@@ -24,7 +24,9 @@ import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 function ProfileScreen({ history }) {
   /* STATE */
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+
   const [password, setpassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -71,7 +73,8 @@ function ProfileScreen({ history }) {
       } else {
         // WE HAVE THE USER INFO SO WE SET OUR STATE
         setName(user.name);
-        setEmail(user.email);
+        setUsername(user.username);
+
       }
     }
   }, [dispatch, history, userInfo, user, success]);
@@ -89,6 +92,7 @@ function ProfileScreen({ history }) {
         updateUserProfile({
           id: user._id,
           name: name,
+          username: username,
           email: email,
           password: password,
         })
@@ -102,7 +106,7 @@ function ProfileScreen({ history }) {
       <Col md={3}>
         <h4>THÔNG TIN NGƯỜI DÙNG</h4>
 
-        {message && <Message variant="danger">{message}</Message>}
+        {message && <Message variant="info">{message}</Message>}
         {error && <Message variant="danger">{error}</Message>}
         {loading && <Loader />}
 
@@ -118,7 +122,19 @@ function ProfileScreen({ history }) {
             />
           </Form.Group>
 
-          <Form.Group controlId="email">
+          <Form.Group controlId="username">
+            <Form.Label> Tên đăng nhập</Form.Label>
+            <Form.Control
+              required
+              type="email"
+              placeholder="Enter Email"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Form.Group>
+
+
+          <Form.Group controlId="email"> {/* Thêm trường email vào form */}
             <Form.Label>Email Address</Form.Label>
             <Form.Control
               required
@@ -166,11 +182,11 @@ function ProfileScreen({ history }) {
           <Table striped responsive className="table-sm">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Date</th>
-                <th>Total</th>
-                <th>Paid</th>
-                <th>Delivered</th>
+                <th>MÃ ĐƠN HÀNG</th>
+                <th>Ngày Mua</th>
+                <th>Tổng Tiền</th>
+                <th>Thanh Toán</th>
+                <th>Chi tiết</th>
               </tr>
             </thead>
 

@@ -65,7 +65,7 @@ function Product({ product }) {
           />
         </Card.Text>
 
-        <Card.Text as="h3">₹{product.price}</Card.Text>
+        <Card.Text as="h3">{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.price)}</Card.Text>
       </Card.Body>
     </Card>
     // <Card sx={{ maxWidth: 345, }} className="my-3 p-3 rounded" >

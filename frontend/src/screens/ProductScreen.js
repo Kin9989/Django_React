@@ -126,7 +126,10 @@ function ProductScreen({ match, history }) {
                     <Row>
                       <Col>Price:</Col>
                       <Col>
-                        <strong>₹{product.price}</strong>
+
+
+
+                        <strong>{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(product.price)}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
