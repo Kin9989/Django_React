@@ -27,6 +27,8 @@ function UserEditScreen({ match, history }) {
   /* STATE */
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+
   const [isAdmin, setIsAdmin] = useState(false);
 
   const dispatch = useDispatch();
@@ -55,16 +57,17 @@ function UserEditScreen({ match, history }) {
         setName(user.name);
         setEmail(user.email);
         setIsAdmin(user.isAdmin);
+        setUsername(user.username);
       }
     }
-  }, [dispatch, user, userId, history, successUpdate]);
+  }, [dispatch, user, userId, username, history, successUpdate]);
 
   /* HANDLERS */
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    dispatch(updateUser({ _id: user._id, name, email, isAdmin }));
+    dispatch(updateUser({ _id: user._id, name, username, email, isAdmin }));
   };
 
   return (
@@ -72,7 +75,7 @@ function UserEditScreen({ match, history }) {
       <Link to="/admin/userlist">Quay lại</Link>
 
       <FormContainer>
-        <h1>Edit User</h1>
+        <h1>Chỉnh Sủa người dùng</h1>
 
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
@@ -100,6 +103,16 @@ function UserEditScreen({ match, history }) {
                 placeholder="Enter Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="email">
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="Username"
+                placeholder="Enter Email"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </Form.Group>
 

@@ -28,9 +28,9 @@ from django.utils.timezone import now
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def addOrderItems(request):
-
     user = request.user
     data = request.data
+    print(data)
     orderItems = data["orderItems"]
 
     if orderItems and len(orderItems) == 0:
@@ -38,30 +38,13 @@ def addOrderItems(request):
             {"detail": "No Order Items", "status": status.HTTP_400_BAD_REQUEST}
         )
     else:
-        # Calculate total price
-        total_price = Decimal(0)
-        for i in orderItems:
-            product = Product.objects.get(_id=i["product"])
-            total_price += product.price * i["qty"]
-
-        # Check if there is a coupon code in the request
-        coupon_code = data.get("coupon_code")
-        if coupon_code:
-            try:
-                coupon = Coupon.objects.get(code=coupon_code)
-                if coupon.is_active:
-                    # Apply discount from coupon
-                    total_price -= coupon.discount
-            except Coupon.DoesNotExist:
-                pass  # Handle case when coupon code is not found
-
-        # Create the order
+        # (1) Create Order
         order = Order.objects.create(
             user=user,
             paymentMethod=data["paymentMethod"],
             taxPrice=data["taxPrice"],
             shippingPrice=data["shippingPrice"],
-            totalPrice=total_price,  # Use the calculated total price
+            totalPrice=data["totalPrice"],
         )
 
         # (2) Create Shipping Address
@@ -397,7 +380,9 @@ def update_coupon(request, pk):
 def check_coupon(request):
     code = request.data.get("code")
     if not code:
-        return Response({"error": "Vui lòng nhập mã khuyến mãi"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"error": "Vui lòng nhập mã khuyến mãi"}, status=status.HTTP_400_BAD_REQUEST
+        )
 
     try:
         coupon = Coupon.objects.get(code=code)

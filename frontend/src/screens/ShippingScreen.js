@@ -56,7 +56,7 @@ function ShippingScreen({ history }) {
           <Form.Control
             required
             type="text"
-            placeholder="Enter Address"
+            placeholder="vui lòng nhập địa chỉ"
             value={address ? address : ""}
             onChange={(e) => setAddress(e.target.value)}
           />
@@ -67,7 +67,7 @@ function ShippingScreen({ history }) {
           <Form.Control
             required
             type="text"
-            placeholder="Enter City"
+            placeholder="vui lòng nhập tên thành phố"
             value={city ? city : ""}
             onChange={(e) => setCity(e.target.value)}
           />
@@ -78,7 +78,7 @@ function ShippingScreen({ history }) {
           <Form.Control
             required
             type="text"
-            placeholder="Enter Postal Code"
+            placeholder="nhập sdt"
             value={postalCode ? postalCode : ""}
             onChange={(e) => setPostalCode(e.target.value)}
           />
@@ -89,7 +89,7 @@ function ShippingScreen({ history }) {
           <Form.Control
             required
             type="text"
-            placeholder="Enter Country"
+            placeholder="vui lòng nhập tÊN QUỐC GIA"
             value={country ? country : ""}
             onChange={(e) => setCountry(e.target.value)}
           />

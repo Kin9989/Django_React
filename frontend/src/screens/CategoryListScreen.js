@@ -105,17 +105,35 @@ const CategoryListScreen = ({ history }) => {
                 <Message variant="danger">{error}</Message>
             ) : (
                 <div style={{ height: 400, width: '100%' }}>
-                    <DataGrid
+                    {/* <DataGrid
                         rows={categories}
                         columns={columns}
                         pageSize={5}
                         // checkboxSelection
                         getRowId={(row) => row.id}
+                    /> */}
+
+                    <DataGrid
+                        rows={categories}
+                        columns={columns}
+                        getRowId={(row) => row.id}
+                        initialState={{
+                            pagination: {
+                                paginationModel: {
+                                    pageSize: 5,
+                                },
+                            },
+                        }}
+                        pageSizeOptions={[5]}
+                        checkboxSelection
+                        disableRowSelectionOnClick
                     />
 
+
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 };
 

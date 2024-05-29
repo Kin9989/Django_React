@@ -155,14 +155,14 @@ const OrderEditScreen = ({ match }) => {
                     </form>
                     {order.paymentMethod === "offline" && !order.isDeliver && (
                         <button onClick={handleDeliverOrder} className="btn btn-primary">
-                            Deliver Order
+                            ĐÃ GIAO HÀNG
                         </button>
                     )}
 
                     {/* Button to pay order */}
                     {order.paymentMethod === "offline" && !order.isPaid && (
                         <button onClick={handlePayOrder} className="btn btn-primary">
-                            Pay Order
+                            Đã thanh toán
                         </button>
                     )}
                 </div>

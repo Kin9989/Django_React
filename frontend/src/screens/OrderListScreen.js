@@ -171,12 +171,27 @@ function OrderListScreen({ history }) {
         //   </tbody>
         // </Table>
         <div style={{ height: 'fitContent', width: '100%' }}>
+          {/* <DataGrid
+            rows={orders}
+            columns={columns}
+            pageSize={20}
+            getRowId={(row) => row._id}
+
+          /> */}
           <DataGrid
             rows={orders}
             columns={columns}
-            pageSize={5}
             getRowId={(row) => row._id}
-
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
+                },
+              },
+            }}
+            pageSizeOptions={[5]}
+            checkboxSelection
+            disableRowSelectionOnClick
           />
         </div>
       )}

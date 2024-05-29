@@ -26,7 +26,7 @@ function Paginate({ page, pages, keyword = "", isAdmin = false }) {
             key={x + 1}
             to={
               !isAdmin
-                ? `/?keyword=${keyword}&page=${x + 1}`
+                ? `products/?keyword=${keyword}&page=${x + 1}`
                 : `/admin/productlist/?keyword=${keyword}&page=${x + 1}`
             }
           >

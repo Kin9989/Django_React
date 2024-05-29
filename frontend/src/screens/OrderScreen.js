@@ -131,8 +131,11 @@ function OrderScreen({ history, match }) {
               <p>
                 <strong>Địa chỉ giao hàng: </strong>
                 {order.shippingAddress.address}, {order.shippingAddress.city},{" "}
-                {order.shippingAddress.postalCode},{" "}
+
                 {order.shippingAddress.country}
+                <br />
+                <strong>SĐT: </strong>
+                {order.shippingAddress.postalCode},{" "}
               </p>
 
               {order.isDeliver ? (
@@ -143,15 +146,15 @@ function OrderScreen({ history, match }) {
                     : null}
                 </Message>
               ) : (
-                <Message variant="warning">Not Delivered</Message>
+                <Message variant="warning">Chưa giao hàng</Message>
               )}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Payment</h2>
+              <h2>Phương thức thanh toán</h2>
 
               <p>
-                <strong>Payment Method: </strong>
+                <strong>Phương thức : </strong>
                 {order.paymentMethod}
               </p>
 
@@ -160,7 +163,7 @@ function OrderScreen({ history, match }) {
                   Paid on {order.paidAt ? order.paidAt.substring(0, 10) : null}
                 </Message>
               ) : (
-                <Message variant="warning">Not Paid</Message>
+                <Message variant="warning">Chưa trả</Message>
               )}
             </ListGroup.Item>
 
@@ -190,8 +193,8 @@ function OrderScreen({ history, match }) {
                         </Col>
 
                         <Col md={4}>
-                          {item.qty} X {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(item.price)} = đ
-                          {(item.qty * item.price).toFixed(2)}
+                          {item.qty} X {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(item.price)} =
+                          {(item.qty * item.price)} đ
                         </Col>
                       </Row>
                     </ListGroup.Item>

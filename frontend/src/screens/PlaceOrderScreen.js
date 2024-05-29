@@ -119,26 +119,28 @@ function PlaceOrderScreen({ history }) {
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2>Shipping</h2>
+              <h2>Địa chỉ</h2>
               <p>
-                <strong>Shipping Address: </strong>
+                <strong>Địa chỉ: </strong>
                 {cart.shippingAddress.address}, {cart.shippingAddress.city},{" "}
-                {cart.shippingAddress.postalCode}, {cart.shippingAddress.country}
+                {cart.shippingAddress.country}<br />
+                <strong>SĐT: </strong>
+                {cart.shippingAddress.postalCode},
               </p>
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Payment</h2>
+              <h2>Phương thức thanh toán</h2>
               <p>
-                <strong>Payment Method: </strong>
+                <strong>Phương thức : </strong>
                 {cart.paymentMethod}
               </p>
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Order Items</h2>
+              <h2>Chi tiết giỏ hàng</h2>
               {cart.cartItems.length === 0 ? (
-                <Message variant="info">No items in the cart. <Link to="/">Quay Lại</Link></Message>
+                <Message variant="info">Không có sản phẩm trong giỏ hàng. <Link to="/">Quay Lại</Link></Message>
               ) : (
                 <ListGroup variant="flush">
                   {cart.cartItems.map((item, index) => (
@@ -174,33 +176,33 @@ function PlaceOrderScreen({ history }) {
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <h2>Order Summary</h2>
+                <h2>Chi tiết</h2>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
-                  <Col>Items:</Col>
+                  <Col>Tiền sản phẩm:</Col>
                   <Col>{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(cart.itemsPrice)}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
-                  <Col>Shipping:</Col>
+                  <Col>Tiền ship:</Col>
                   <Col>{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(cart.shippingPrice)}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
-                  <Col>Tax:</Col>
+                  <Col>Tiền thuế:</Col>
                   <Col>{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(cart.taxPrice)}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
-                  <Col>Total:</Col>
+                  <Col>Tổng:</Col>
                   <Col>{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(totalPrice)}</Col>
                 </Row>
               </ListGroup.Item>
@@ -211,20 +213,20 @@ function PlaceOrderScreen({ history }) {
 
               <ListGroup.Item>
                 <Form.Group controlId="couponCode">
-                  <Form.Label>Coupon Code</Form.Label>
+                  <Form.Label> Mã khuyến mãi</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter coupon code"
+                    placeholder="Vui lòng nhập mã khuyến mãi"
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
                   />
                   <Button variant="primary" className="mt-2" onClick={checkCoupon} disabled={loading}>
-                    {loading ? 'Checking...' : 'Apply Coupon'}
+                    {loading ? 'Checking...' : 'Nhập'}
                   </Button>
                 </Form.Group>
                 {couponData && (
                   <Alert variant="success" className="mt-2">
-                    Discount: {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(couponData.discount)}
+                    Giảm: {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(couponData.discount)}
                   </Alert>
                 )}
                 {couponError && (
@@ -241,7 +243,7 @@ function PlaceOrderScreen({ history }) {
                   disabled={cart.cartItems.length === 0}
                   onClick={placeOrder}
                 >
-                  Place Order
+                  Đặt hàng
                 </Button>
               </ListGroup.Item>
             </ListGroup>
