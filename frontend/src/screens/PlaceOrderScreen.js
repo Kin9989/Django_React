@@ -160,8 +160,8 @@ function PlaceOrderScreen({ history }) {
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} X {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(item.price)} = đ
-                          {(item.qty * item.price).toFixed(2)}
+                          {item.qty} X {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(item.price)} =
+                          {(item.qty * item.price)}đ
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -195,7 +195,7 @@ function PlaceOrderScreen({ history }) {
 
               <ListGroup.Item>
                 <Row>
-                  <Col>Tiền thuế:</Col>
+                  <Col>Tiền thuế :</Col>
                   <Col>{new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(cart.taxPrice)}</Col>
                 </Row>
               </ListGroup.Item>
