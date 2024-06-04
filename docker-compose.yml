@@ -1,12 +1,12 @@
-version: "3"
 services:
-  frontend:
-    container_name: frontend
-    restart: always
-    build: ./frontend/
-    volumes:
-      - ./:/var/www/frontend
+  app:
+    # build:
+      # context: .
+      # dockerfile: Dockerfile
+    build: .
+    
+    # env_file:
+    #   - backend/.dev.env
+    command: ["./run.sh"]
     ports:
-      - 3000:3000
-  
-  
+      - 8000:8000

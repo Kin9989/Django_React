@@ -21,12 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-i-b2o_4@ru#jr_y)vbhdjng$607jjufk4i8b+*wrk0p&!ae%-e"
+
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-i-b2o_4@ru#jr_y)vbhdjng$607jjufk4i8b+*wrk0p&!ae%-e")
+
+# SECRET_KEY = "django-insecure-i-b2o_4@ru#jr_y)vbhdjng$607jjufk4i8b+*wrk0p&!ae%-e"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "otakuhouse.herokuapp.com"]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS" ,"localhost 127.0.0.1 otakuhouse.herokuapp.com").split(" ")
 
 
 # Application definition
@@ -149,7 +151,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "Asia/Kolkata"
+TIME_ZONE = "Asia/Ho_Chi_Minh"
 
 USE_I18N = True
 
@@ -174,15 +176,15 @@ STATICFILES_DIRS = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-VNPAY_RETURN_URL = "http://localhost:8000/payment_return"  # get from config
-VNPAY_PAYMENT_URL = (
-    "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"  # get from config
-)
-VNPAY_API_URL = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction"
-VNPAY_TMN_CODE = ""  # Website ID in VNPAY System, get from config
-VNPAY_HASH_SECRET_KEY = ""  # Secret key for create checksum,get from config
+
+VNPAY_RETURN_URL = os.environ.get("VNPAY_RETURN_URL", "http://localhost:8000/payment_return")
+VNPAY_PAYMENT_URL = os.environ.get("VNPAY_PAYMENT_URL", "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html")
+VNPAY_API_URL = os.environ.get("VNPAY_API_URL", "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction")
+VNPAY_TMN_CODE = os.environ.get("VNPAY_TMN_CODE", "JTHM0JXT")
+VNPAY_HASH_SECRET_KEY = os.environ.get("VNPAY_HASH_SECRET_KEY", "ZN4GK8ORUSJ1AUCO6WD19W7X6VPP5QFI")

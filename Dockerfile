@@ -1,13 +1,17 @@
-FROM node:20-alpine
+FROM python:3.10
 
-WORKDIR /usr/src/app
+COPY . /code
 
-COPY package*.json ./
+WORKDIR /code
 
-RUN npm install
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-COPY . .
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-EXPOSE 3000
+EXPOSE 8000
+RUN chmod +x run.sh
 
-CMD ["npm", "start"]
+# auto migrations
+CMD ["sh", "run.sh"]

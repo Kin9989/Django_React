@@ -26,5 +26,4 @@ urlpatterns = [
     url(r"^payment_return$", views.payment_return, name="payment_return"),
     url(r"^query$", views.query, name="query"),
     url(r"^refund$", views.refund, name="refund"),
-
 ]

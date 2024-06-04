@@ -224,6 +224,96 @@ def getToatalFollowDMY(request):
     )
 
 
+@api_view(["POST"])
+# @permission_classes([IsAdminUser])
+def getToatalDMY(request):
+    day_start = request.data.get("day_start")
+    day_end = request.data.get("day_end")
+    month_start = request.data.get("month_start")
+    month_end = request.data.get("month_end")
+    year_start = request.data.get("year_start")
+    year_end = request.data.get("year_end")
+    orders_data = []
+
+    # Chuyển đổi các giá trị thành số nguyên
+    try:
+        if day_start:
+            day_start = int(day_start)
+        if day_end:
+            day_end = int(day_end)
+        if month_start:
+            month_start = int(month_start)
+        if month_end:
+            month_end = int(month_end)
+        if year_start:
+            year_start = int(year_start)
+        if year_end:
+            year_end = int(year_end)
+    except ValueError:
+        return Response({"error": "Invalid date input"})
+
+    # Kiểm tra xem ngày và năm đã được cung cấp hay không
+    if (day_start or day_end) and not (
+        month_start and month_end and year_start and year_end
+    ):
+        return Response({"error": "Vui lòng nhập đầy đủ tháng và năm"})
+
+    if day_start and day_end and month_start and month_end and year_start and year_end:
+        start_date = datetime(year_start, month_start, day_start)
+        end_date = datetime(year_end, month_end, day_end)
+        orders = Order.objects.filter(
+            isPaid=True,
+            createdAt__gte=start_date,
+            createdAt__lte=end_date,
+        )
+        total_revenue = orders.aggregate(total_revenue=Sum("totalPrice"))[
+            "total_revenue"
+        ]
+        total_orders = orders.count()
+    elif month_start and month_end and year_start and year_end:
+        start_date = datetime(year_start, month_start, 1)
+        end_date = datetime(year_end, month_end, 1) + relativedelta(months=1, days=-1)
+        orders = Order.objects.filter(
+            createdAt__gte=start_date,
+            createdAt__lte=end_date,
+            isPaid=True,
+        )
+        total_revenue = orders.aggregate(total_revenue=Sum("totalPrice"))[
+            "total_revenue"
+        ]
+        total_orders = orders.count()
+    elif year_start and year_end:
+        start_date = datetime(year_start, 1, 1)
+        end_date = datetime(year_end, 12, 31)
+        orders = Order.objects.filter(
+            createdAt__gte=start_date,
+            createdAt__lte=end_date,
+            isPaid=True,
+        )
+        total_revenue = orders.aggregate(total_revenue=Sum("totalPrice"))[
+            "total_revenue"
+        ]
+        total_orders = orders.count()
+    else:
+        return Response({"error": "Please provide at least year range"})
+
+    for order in orders:
+        orders_data.append(
+            {
+                "_id": order._id,
+                "totalPrice": order.totalPrice,
+            }
+        )
+
+    return Response(
+        {
+            "total_orders": total_orders,
+            "total_revenue": total_revenue,
+            "orders": orders_data,
+        }
+    )
+
+
 @api_view(["GET"])
 # @permission_classes([IsAdminUser])
 def get_order_statisticsUP(request):

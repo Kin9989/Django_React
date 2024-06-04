@@ -185,7 +185,7 @@ function Header() {
                 color="info"
                 size="small"
                 onClick={() => scrollToSection('pricing')}
-                href="#/blog"
+                href="#/blogs"
               >
                 BÀI VIẾT
               </Button>

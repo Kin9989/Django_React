@@ -194,7 +194,7 @@ def getBlogById(request, pk):
 
 
 @api_view(["POST"])
-@permission_classes([IsAdminUser])
+# @permission_classes([IsAdminUser])
 def addBlog(request):
     if request.method == "POST":
         serializer = PostSerializer(data=request.data)

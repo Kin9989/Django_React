@@ -16,5 +16,7 @@ urlpatterns = [
     path("<str:pk>/", views.getOrderById, name="user-order"),
     path("<str:pk>/pay/", views.updateOrderToPaid, name="pay"),
     path("stats/total/DMY/", views.getToatalFollowDMY, name="total_DMY"),
+    path("stats/totalDMY/", views.getToatalDMY, name="total_DMY"),
+
     path("stats/UP/", views.get_order_statisticsUP, name="total_UP"),
 ]

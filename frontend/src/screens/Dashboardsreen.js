@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import StatsDMY from '../components/AdminCom/StatDMY';
+import LineChartStat from '../components/AdminCom/LineChartStat';
+import Container from '@mui/material/Container';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -118,6 +120,17 @@ const TrangCuaBan = () => {
                 <Grid xs={6} md={12}>
                     <Item>
                         <StatsDMY />
+                    </Item>
+                </Grid>
+            </Grid>
+
+            <Grid container spacing={2} style={{ marginTop: '20px' }}>
+                <Grid xs={6} md={12}>
+                    <Item>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }} >
+                            <LineChartStat />
+                        </div>
+
                     </Item>
                 </Grid>
             </Grid>

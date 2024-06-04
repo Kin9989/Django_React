@@ -42,6 +42,7 @@ import Caurousel from "../src/components/BodyHomePage/Caurousel";
 // import Abc from "../src/screens/abc"
 /* REACT ROUTER */
 import { HashRouter as Router, Route } from "react-router-dom";
+import BlogDetailScreen from "./screens/BlogDetailScreen";
 
 function App() {
   return (
@@ -54,7 +55,9 @@ function App() {
       <Route exact path="/" component={HomeScreen} />
       <Route path="/login" component={LoginScreen} />
       <Route path="/contact" component={ContactScreen} />
-      <Route path="/blog" component={BlogScreen} />
+      <Route path="/blogs" component={BlogScreen} />
+      <Route path="/bl/:id" render={({ match }) => <BlogDetailScreen id={match.params.id} />} />
+
 
 
 

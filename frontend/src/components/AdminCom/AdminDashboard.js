@@ -23,7 +23,7 @@ function AdminDashboard() {
         { label: 'Sản Phẩm', icon: <ChairAltIcon />, link: '#/admin/productlist' },
         { label: 'Đơn Hàng', icon: <EventNoteIcon />, link: '#/admin/orderlist' },
         { label: 'Người Dùng', icon: <ManageAccountsIcon />, link: '#/admin/userlist' },
-        { label: 'Blog', icon: <BookIcon />, link: '#/admin/orderlist' },
+        { label: 'Blog', icon: <BookIcon />, link: '#/admin/bloglist' },
         { label: 'Thông kê', icon: <AssessmentIcon />, link: '#/admin/dashboard' },
 
 

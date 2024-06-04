@@ -19,6 +19,12 @@ import CategoryEditScreen from "./CategoryEditScreen";
 import OrderListScreen from "./OrderListScreen";
 import OrderEditScreen from "./OrderEditScreen";
 import DashBoardSreen from "./Dashboardsreen"
+import BlogCreateScreen from "./BlogCreateScreen"
+import BlogEditScreen from "./BlogEditScreen"
+import BlogListScreen from "./BlogListScreen"
+
+
+
 
 import ProductViewComments from "./ProductViewComments";
 
@@ -67,6 +73,7 @@ export default function FullWidthGrid() {
                             <Route path="/admin/categorieslist" component={CategoryListScreen} />
                             <Route path="/admin/category/create" component={CategoryCreateScreen} />
                             <Route path="/admin/category/:id/edit" component={CategoryEditScreen} />
+                            
                             <Route path="/admin/userlist" component={UserListScreen} />
                             <Route path="/admin/user/:id/edit" component={UserEditScreen} />
                             {/* admin manage product  */}
@@ -78,6 +85,15 @@ export default function FullWidthGrid() {
                             <Route path="/admin/orderlist" component={OrderListScreen} />
                             <Route path="/admin/:id/orderedit" component={OrderEditScreen} />
                             <Route path="/admin/product/:productId/reviews" component={ProductViewComments} />
+
+                            {/* admin manage blog */}
+                            {/* <Route path="/admin/blog" component={OrderListScreen} />
+                            <Route path="/admin/:id/blog" component={OrderEditScreen} /> */}
+                            <Route path="/admin/blog/create" component={BlogCreateScreen} />
+                            <Route path="/admin/bloglist/" component={BlogListScreen} />
+
+                            <Route path="/admin/blog/:id/edit" component={BlogEditScreen} />
+
                         </Box>
                     </Router>
                 </Grid>
