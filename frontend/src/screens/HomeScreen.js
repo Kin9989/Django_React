@@ -13,6 +13,11 @@ import BandCollab from "../components/BodyHomePage/BardCollab";
 import AdProduct from "../components/BodyHomePage/adProduct/AdProduct";
 import Committed from "../components/BodyHomePage/Committed";
 import OurService from "../components/BodyHomePage/OurService";
+import CouponHome from "../components/BodyHomePage/CouponHome";
+import BlogHome from "../components/BlogHome"
+import HomePage1 from "../components/HomePage1"
+
+import { Typography } from '@mui/material';
 
 /* REACT - REDUX */
 import { useDispatch, useSelector } from "react-redux";
@@ -41,9 +46,11 @@ function HomeScreen({ history }) {
     <div>
 
       <Caurousel></Caurousel>
-
+      <HomePage1></HomePage1>
       <AdProduct></AdProduct>
+
       <Container >
+
         {/* {!keyword && <ProductCarousel />} */}
 
         <h1>Sản Phẩm mới nhất</h1>
@@ -68,8 +75,19 @@ function HomeScreen({ history }) {
           </div>
         )}
       </Container>
+      <CouponHome></CouponHome>
       <Container>
+
+        <h1>Bài Viết mới nhất</h1>
+        <BlogHome></BlogHome>
+        <Typography variant="h4" gutterBottom>
+          Mã Khuyễn mãi
+        </Typography>
+
         <BandCollab></BandCollab>
+        <Typography variant="h4" gutterBottom>
+          Dịch vụ của chúng tôi
+        </Typography>
         <OurService></OurService>
       </Container>
       <Committed></Committed>

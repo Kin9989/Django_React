@@ -424,15 +424,26 @@ def get_order_statisticsUP(request):
 
 
 @api_view(["GET"])
-@permission_classes([IsAdminUser])
+# @permission_classes([IsAdminUser])
 def get_coupons(request):
     coupons = Coupon.objects.all()
     serializer = CouponSerializer(coupons, many=True)
     return Response(serializer.data)
 
 
+@api_view(["GET"])
+# @permission_classes([IsAdminUser])
+def get_coupon_by_id(request, pk):
+    try:
+        coupon = Coupon.objects.get(pk=pk)
+    except Coupon.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = CouponSerializer(coupon)
+    return Response(serializer.data)
+
+
 @api_view(["POST"])
-@permission_classes([IsAdminUser])
+# @permission_classes([IsAdminUser])
 def add_coupon(request):
     serializer = CouponSerializer(data=request.data)
     if serializer.is_valid():
@@ -442,7 +453,7 @@ def add_coupon(request):
 
 
 @api_view(["DELETE"])
-@permission_classes([IsAdminUser])
+# @permission_classes([IsAdminUser])
 def delete_coupon(request, pk):
     try:
         coupon = Coupon.objects.get(pk=pk)
@@ -453,7 +464,7 @@ def delete_coupon(request, pk):
 
 
 @api_view(["PUT"])
-@permission_classes([IsAdminUser])
+# @permission_classes([IsAdminUser])
 def update_coupon(request, pk):
     try:
         coupon = Coupon.objects.get(pk=pk)

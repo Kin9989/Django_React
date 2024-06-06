@@ -51,6 +51,7 @@ const CategoryEditScreen = () => {
                         onChange={(e) => setName(e.target.value)}
                     />
                 </Form.Group>
+                
                 <Button type="submit" variant="primary" className="mt-2">
                     Cập Nhật
                 </Button>

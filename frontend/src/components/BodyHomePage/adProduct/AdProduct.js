@@ -18,12 +18,12 @@ const AdProduct = () => {
             <h1 className="content__title">Nội Thất Việt Thành</h1>
             <h3 className="content__author">noithatvietthanh.com</h3>
 
-            <blockquote cite="Bob Ross">Tổng quan</blockquote>
-            <h5>
+            {/* <blockquote cite="Bob Ross">XIN CHÀO</blockquote> */}
+            {/* <h5>
               Chúng tôi là một thương hiệu gia đình với kinh nghiệm gần 30 năm
               trong nghề và đã cùng người Bình Dương tạo nên những không gian
               sống, không gian làm việc chân thực với nhu cầu của mình.
-            </h5>
+            </h5> */}
           </article>
         </section>
       </div>

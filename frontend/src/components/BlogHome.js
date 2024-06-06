@@ -9,20 +9,16 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid'; // Import Grid from Material-UI
-import { Link } from "react-router-dom";
-import BannerBlog from "../components/BodyHomePage/ImgBaner/BANNERBLOG.jpg";
-import Button from '@mui/material/Button';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Link } from "react-router-dom";
 
-const ColorButton = styled(Button)(({ theme }) => ({
-    backgroundColor: 'white',
-    color: 'black',
-    '&:hover': {
-        backgroundColor: 'white',
-    },
-}));
+// Swiper imports
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Navigation, Pagination } from 'swiper/modules';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -35,7 +31,7 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-const BlogScreen = () => {
+const SwiperSlider = () => {
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -70,25 +66,28 @@ const BlogScreen = () => {
         return `${day}/${month}/${year}`;
     };
 
+    const reversedBlogs = blogs.slice().reverse(); // Reverse the blogs array
+
     return (
-        <>
+        <div className='m-5'>
             {loading && <div>Loading...</div>}
             {error && <div>Error: {error.message}</div>}
-            <div>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <img src={BannerBlog} style={{ width: "1000px", height: 'auto' }} alt="Banner" />
-                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                        <h1 style={{ color: "white" }}>Không gian sống lý tưởng <br /> dành cho bạn</h1>
-                        <Link to="/blogs">
-                            <ColorButton variant="contained">Khám phá ngay</ColorButton>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-            <Grid container spacing={2} className='container mt-5' style={{ margin: '0 auto' }}>
-                {blogs.map(blog => (
-                    <Grid item key={blog.id} xs={12} sm={6} md={3}>
-                        <Card sx={{ maxWidth: 345 }}>
+
+            <Swiper
+                spaceBetween={20}
+                slidesPerView={4}
+                navigation
+                pagination={{ clickable: true }}
+                modules={[Navigation, Pagination]}
+                breakpoints={{
+                    640: { slidesPerView: 1, spaceBetween: 20 },
+                    768: { slidesPerView: 2, spaceBetween: 20 },
+                    1024: { slidesPerView: 4, spaceBetween: 20 },
+                }}
+            >
+                {reversedBlogs.map(blog => (
+                    <SwiperSlide key={blog.id}>
+                        <Card sx={{ maxWidth: 345 }} className="mb-5">
                             <CardHeader
                                 title={blog.title}
                                 subheader={formatDate(blog.created_at)}
@@ -128,11 +127,11 @@ const BlogScreen = () => {
                                 </CardContent>
                             </Collapse>
                         </Card>
-                    </Grid>
+                    </SwiperSlide>
                 ))}
-            </Grid>
-        </>
+            </Swiper>
+        </div>
     );
 };
 
-export default BlogScreen;
+export default SwiperSlider;

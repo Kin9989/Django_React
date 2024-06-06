@@ -16,15 +16,18 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import BookIcon from '@mui/icons-material/Book';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 function AdminDashboard() {
     // Dữ liệu cho các tab
     const data = [
         { label: 'Danh Mục', icon: <CategoryIcon />, link: '#/admin/categorieslist' },
         { label: 'Sản Phẩm', icon: <ChairAltIcon />, link: '#/admin/productlist' },
+        { label: 'Thông kê', icon: <AssessmentIcon />, link: '#/admin/dashboard' },
         { label: 'Đơn Hàng', icon: <EventNoteIcon />, link: '#/admin/orderlist' },
         { label: 'Người Dùng', icon: <ManageAccountsIcon />, link: '#/admin/userlist' },
         { label: 'Blog', icon: <BookIcon />, link: '#/admin/bloglist' },
-        { label: 'Thông kê', icon: <AssessmentIcon />, link: '#/admin/dashboard' },
+        { label: 'Khuyến Mãi ', icon: <ConfirmationNumberIcon />, link: '#/admin/coupon/list/' },
+
 
 
     ];

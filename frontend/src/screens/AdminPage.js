@@ -23,6 +23,10 @@ import BlogCreateScreen from "./BlogCreateScreen"
 import BlogEditScreen from "./BlogEditScreen"
 import BlogListScreen from "./BlogListScreen"
 
+import CouponCreateScreen from "./CouponCreateScreen";
+import CouponListScreen from "./CouponListScreen";
+import CouponEditScreen from "./CouponEditScreen"
+
 
 
 
@@ -73,7 +77,7 @@ export default function FullWidthGrid() {
                             <Route path="/admin/categorieslist" component={CategoryListScreen} />
                             <Route path="/admin/category/create" component={CategoryCreateScreen} />
                             <Route path="/admin/category/:id/edit" component={CategoryEditScreen} />
-                            
+
                             <Route path="/admin/userlist" component={UserListScreen} />
                             <Route path="/admin/user/:id/edit" component={UserEditScreen} />
                             {/* admin manage product  */}
@@ -91,8 +95,14 @@ export default function FullWidthGrid() {
                             <Route path="/admin/:id/blog" component={OrderEditScreen} /> */}
                             <Route path="/admin/blog/create" component={BlogCreateScreen} />
                             <Route path="/admin/bloglist/" component={BlogListScreen} />
-
                             <Route path="/admin/blog/:id/edit" component={BlogEditScreen} />
+
+                            <Route path="/admin/coupon/create" component={CouponCreateScreen} />
+                            <Route path="/admin/coupon/list/" component={CouponListScreen} />
+                            <Route path="/admin/coupon/:id/edit" component={CouponEditScreen} />
+
+
+
 
                         </Box>
                     </Router>

@@ -2,7 +2,7 @@
 
 
 p {
-    font-family: 'Roboto', sans-serif;
+    /* font-family: '', ; */
     font-size: 1.25rem;
     line-height: 1.5;
 }
@@ -12,7 +12,7 @@ p {
 blockquote {
     position: relative;
     padding-left: 1.5rem;
-    font-family: 'Courgette', serif;
+    /* font-family: '', ; */
     font-size: 2rem;
     line-height: 1.25;
     letter-spacing: -0.05rem;
@@ -85,7 +85,7 @@ figure {
     width: 100%;
     height: 100%;
     color: white;
-    font-family: 'Courgette', serif;
+    /* font-family: 'Courgette', serif; */
     font-size: 8vw;
     letter-spacing: -0.125rem;
     text-align: center;
@@ -131,7 +131,7 @@ figure {
 }
 
 .content__title {
-    font-family: 'Courgette', serif;
+    /* font-family: 'Courgette', serif; */
     font-size: 3rem;
     line-height: 1.25;
     letter-spacing: -0.125rem;
@@ -150,7 +150,7 @@ figure {
     justify-content: space-between;
     margin-bottom: 4rem;
     width: 100%;
-    font-family: 'Courgette', serif;
+    /* font-family: 'Courgette', serif; */
     font-size: 1.5rem;
     letter-spacing: -0.125rem;
     text-align: center;
